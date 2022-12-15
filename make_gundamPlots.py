@@ -1,11 +1,10 @@
 import sys,os
 from optparse import OptionParser
-from ROOT import TFile, TH1 
+from ROOT import TFile, TH1, TGraph
 
 parser = OptionParser()
-parser.add_option("-r","--run",dest="run",help="Run to use for the analysis")
+parser.add_option("-p","--path",dest="path",help="Path to file where plots will be extracted from")
 parser.add_option("-n",default=-1,type=int,help="N files")
-#parser.add_option("-a","--all",action="store_true",dest="run_all",default=False,help="Run the analysis on all runs")
 parser.add_option("-t","--mktrees",action="store_true",dest="mktree",default=False,help="Make analysis trees before running analysis") 
 # implement option to write output into log file, maybe
 # implement option to run all, with glob
@@ -13,9 +12,8 @@ parser.add_option("-t","--mktrees",action="store_true",dest="mktree",default=Fal
 
 directory = []
 run = options.run
-directory = os.listdir(run)
+directory = os.listdir()
 path = os.path.abspath(os.getcwd()) + "/"
-chain = TChain("ana/pandoraOutput")
 
 
 if options.n == -1:
