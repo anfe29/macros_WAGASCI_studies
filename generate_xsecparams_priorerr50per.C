@@ -29,7 +29,7 @@ void readParams()
 
 }
 
-void generate_xsecparams()
+void generate_xsecparams_priorerr50per()
 {
 	// read parameters form csv file
 	readParams();
@@ -325,8 +325,8 @@ void generate_xsecparams()
 	    //if(strcmp(name_dials[i].c_str(),"SF_P1_2Shell_MeanF_Norm_O") == 0) {
 	    if(i == 32) {
             prior[i] = 1.0;
-	    prior_err[i] = 0.2;
-	    //prior_err[i] = 0.5;
+	    //prior_err[i] = 0.2;
+	    prior_err[i] = 0.5;
             lb[i] = 0.0;
             ub[i] = 2.0;
 	}
@@ -340,8 +340,8 @@ void generate_xsecparams()
 	    //if(strcmp(name_dials[i].c_str(),"SF_P3_2Shell_MeanF_Norm_O") == 0) {
 	    if(i == 34) {
             prior[i] = 1.0;
-	    prior_err[i] = 0.2;
-	    //prior_err[i] = 0.5;
+	    //prior_err[i] = 0.2;
+	    prior_err[i] = 0.5;
             lb[i] = 0.0;
             ub[i] = 2.0;
 	}
@@ -411,16 +411,16 @@ void generate_xsecparams()
 	    //if(strcmp(name_dials[i].c_str(),"SF_SShell_MeanF_Norm_C") == 0) {
 	    if(i == 44) {
             prior[i] = 1.0;
-	    prior_err[i] = 0.4;
-	    //prior_err[i] = 0.5;
+	    //prior_err[i] = 0.4;
+	    prior_err[i] = 0.5;
             lb[i] = 0.0;
             ub[i] = 2.0;
 	}
 	    //if(strcmp(name_dials[i].c_str(),"SF_SShell_MeanF_Norm_O") == 0) {
 	    if(i == 45) {
             prior[i] = 1.0;
-	    prior_err[i] = 0.2;
-	    //prior_err[i] = 0.5;
+	    //prior_err[i] = 0.2;
+	    prior_err[i] = 0.5;
             lb[i] = 0.0;
             ub[i] = 2.0;
 	}
@@ -460,9 +460,8 @@ void generate_xsecparams()
 	std::cout << "Contents of matrix: \n";
 	cov_matrix.Print();
 
-	f_output = new TFile("studies_sampKenj/inputs/parameters/xsec/xsec_covmatrix_param.root","RECREATE");
-	//f_output->WriteObject(cov_matrix,"xsec_cov");
-	//f_output->WriteObject(corr_matrix,"xsec_corr");
+	//f_output = new TFile("studies_sampKenj/inputs/parameters/xsec/xsec_covmatrix_param.root","RECREATE");
+	f_output = new TFile("studies_sampKenj/inputs/parameters/xsec/xsec_covmatrix_param_priorerr50per.root","RECREATE");
 	cov_matrix.Write("xsec_cov");
 	corr_matrix.Write("xsec_corr");
 	f_output->WriteObject(xsec_param_name,"xsec_param_names");
