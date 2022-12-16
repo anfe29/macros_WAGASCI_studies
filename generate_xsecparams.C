@@ -40,29 +40,38 @@ void generate_xsecparams()
 
 	// create correlation matrix
 	double corr[param_num][param_num];
-	// maybe parse form csv file but now lazy
-	for(int i = 0; i < param_num; i++) {
-		for(int j = 0; j < param_num; j++) {
-			corr[i][j] = 0;
-			if(i == j) corr[i][j] = 1;
-			if((i == 10 && j == 12) || (i == 12 && j == 10)) corr[i][j] = 0.3;
-			if((i == 11 && j == 13) || (i == 13 && j == 11)) corr[i][j] = 0.3;
-			if((i == 19 && j == 20) || (i == 20 && j == 19)) corr[i][j] = -0.03;
-			if((i == 20 && j == 21) || (i == 21 && j == 20)) corr[i][j] = -0.11;
-			if((i == 22 && j == 24) || (i == 24 && j == 22)) corr[i][j] = -0.31;
-			if((i == 22 && j == 25) || (i == 25 && j == 22)) corr[i][j] = -0.03;
-			if((i == 22 && j == 26) || (i == 26 && j == 22)) corr[i][j] = 0.03;
-			if((i == 22 && j == 27) || (i == 27 && j == 22)) corr[i][j] = -0.27;
-			if((i == 24 && j == 25) || (i == 25 && j == 24)) corr[i][j] = -0.01;
-			if((i == 24 && j == 26) || (i == 26 && j == 24)) corr[i][j] = 0.01;
-			if((i == 24 && j == 26) || (i == 26 && j == 24)) corr[i][j] = -0.2;
-			if((i == 25 && j == 26) || (i == 26 && j == 25)) corr[i][j] = -0.53;
-			if((i == 25 && j == 27) || (i == 27 && j == 25)) corr[i][j] = 0.03;
-			if((i == 26 && j == 27) || (i == 27 && j == 26)) corr[i][j] = -0.03;
-			if((i == 37 && j == 38) || (i == 38 && j == 37)) corr[i][j] = 0.8;
-			if((i == 39 && j == 40) || (i == 40 && j == 39)) corr[i][j] = 0.8;
-		}
+      
+	// read parameters from csv file and put it into a matrix 
+	std::ifstream file("files_kenji/WAGASCI-BabyMIND_cc0pi_analysis_CorrMatrix.csv");
+
+	if (!file) {
+		std::cerr << "not working";
+		return 1;
 	}
+
+	std::vector<std::string> coor;
+	std::string line, word, tmp;
+    int i = 1;
+    while(getline(file, line)) {
+        coor.clear();
+        //std::cout << "Line to parse:\n" << line << "\n";
+        std::stringstream s(line);
+        while(std::getline(s, word,',')) {
+            //std::string substr = tmp.substr(0, tmp.find_first_of(",",j));
+            //double num = std::stod(substr);
+            coor.push_back(word);
+        }
+        for(int j = 1; j < coor.size(); j++) {
+            //std::cout << "Reading column " << j << ":" << coor[i] << "\n";
+            corr[i-1][j-1] = 0;
+            if(i != 48 and j == 48) break;
+            if(coor[j] != "") corr[i-1][j-1] = std::stod(coor[j]);
+
+            //std::cout << "Reading coordinate (" << i << "," << j << ") : " << coor[j] << "\n";
+        }
+    i++;
+    }
+    file.close();
 
 	TMatrixT<double> corr_matrix(param_num,param_num,corr[0]); 
 	std::cout << "Contents of matrix: \n";

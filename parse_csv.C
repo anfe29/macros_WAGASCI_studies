@@ -1,4 +1,4 @@
-void test()
+void parse_csv()
 {
 	// read parameters from csv file and put it into a matrix 
 	std::ifstream file("files_kenji/WAGASCI-BabyMIND_cc0pi_analysis_CorrMatrix.csv");
@@ -22,7 +22,9 @@ void test()
         }
         for(int j = 1; j < coor.size(); j++) {
             //std::cout << "Reading column " << j << ":" << coor[i] << "\n";
-            if(!coor[j].empty() or coor[j] == '\n') std::cout << "Reading coordinate (" << i << "," << j << ") : " << coor[j] << " Length: " << coor[j].data() << "\n";
+            //std::cout << "Reading coordinate (" << i << "," << j << ") : " << coor[j] << "\n";
+            if(i != 48 and j == 48) break;
+            if(coor[j] != "" || i==j) std::cout << "Reading coordinate (" << i << "," << j << ") : " << coor[j] << "\n";
         }
     i++;
     }
