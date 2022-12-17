@@ -91,7 +91,7 @@ void write_binning(std::string param)
 	//file.open("inputs/parameters/xsec/xsec_binning.txt");
 	file.open(path_binning,ios::out);
 	
-	std::cout << "Creating binning file: " << path_binning << "\n";
+	std::cout << "Creating binning file: " << path_binning << "\n\n";
 	//file << "variables: Pmu Pmu CosThetamu CosThetamu Enu Enu Q2 Q2\n";
 	file << "variables: sample target reaction_kenji D1True D1True \n";
 	int j = 0;
@@ -163,7 +163,7 @@ void combineSplines()
 			title_g = g->GetTitle();
 			//std::cout << "Reading: " << title_g << ",";
 			int n = 0;
-			std::cout << " => Contents of spline : ";
+			//std::cout << " => Contents of spline : ";
 			for(int k = 0; k < g->GetMaxSize(); k++) {
 				//std::cout << "  " << g->GetPointY(k);
 				if(g->GetPointY(k) == 1) n++;
