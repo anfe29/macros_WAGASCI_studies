@@ -4,7 +4,7 @@
 #include <sstream>
 
 // this file does not exist anymore locally anymore, careful when re running this macro
-const std::string fluxRootFilePath = "pmu_binning/cov_matrix/flux/flux_covariance_wagasci_2021_total_bv21v2_20_20_bins.root";
+const std::string fluxRootFilePath = "studies_sampKenj/inputs/parameters/flux/flux_covariance_wagasci_2021_total_bv21v2_20_20_bins.root";
 
 void generateBinningFlux(){
 
@@ -63,7 +63,7 @@ void generateBinningFlux(){
   }
 
 	std::fstream file;
-	file.open("studies_sampKenj/inputs/parameters/flux/flux_binning.txt");
+	file.open("studies_sampKenj/inputs/parameters/flux/WAGASCIflux_binning.txt");
   	std::cout << ss.str() << "\n";
 	file << ss.str();
 	file.close();

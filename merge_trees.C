@@ -64,11 +64,11 @@ int NEUT2KENJI(int reaction)
 void merge_trees() 
 {
 	// Open target root files
-	TFile *file1 = new TFile("/home/amunoz/WAGASCI/files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split_h2o.root");
-	TFile *file2 = new TFile("/home/amunoz/WAGASCI/files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split.root");
+	TFile *file1 = new TFile("./files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split_h2o.root");
+	TFile *file2 = new TFile("./files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split.root");
 	
 	// Create new root file
-	TFile *file = new TFile("/home/amunoz/WAGASCI/studies_sampKenj/inputs/wagasci_sample_kenji.root","recreate");
+	TFile *file = new TFile("./studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root","recreate");
 
 	// Define trees
 	TTree *t1 = (TTree*) file1->Get("selectedEvents"); 
