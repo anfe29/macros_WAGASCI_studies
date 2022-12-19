@@ -64,8 +64,8 @@ int NEUT2KENJI(int reaction)
 void merge_trees() 
 {
 	// Open target root files
-	TFile *file1 = new TFile("./files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split_h2o.root");
-	TFile *file2 = new TFile("./files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split.root");
+	TFile *file1 = new TFile("files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split_h2o.root");
+	TFile *file2 = new TFile("files_kenji/rootfiles/selection_results_input_for_xsLLhFitter_w_yasu_pmu_sample_split.root");
 	
 	// Create new root file
 	TFile *file = new TFile("./studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root","recreate");
@@ -366,7 +366,8 @@ void merge_trees()
                 SubRunNumber = -999;
                 EventNumber = -999;
                 DetNomWeight = 1;
-                NeutrinoCode = 14;
+                if(reaction1 > 0)NeutrinoCode = 14;
+                else NeutrinoCode = -14;
 
                 TrueNeutrinoDirX = -999;
                 TrueNeutrinoDirY = -999;
@@ -457,7 +458,8 @@ void merge_trees()
                 SubRunNumber = -999;
                 EventNumber = -999;
                 DetNomWeight = 1;
-                NeutrinoCode = 14;
+                if(reaction2 > 0)NeutrinoCode = 14;
+                else NeutrinoCode = -14;
 
                 TrueNeutrinoDirX = -999;
                 TrueNeutrinoDirY = -999;
