@@ -12,10 +12,10 @@ void BinningMacro(){
 
 	ofstream file;
 	//file.open("studies_sampKenj/inputs/samples/binning/simple_binning.txt");
-	file.open("/sps/t2k/amunoz/work/wagasci/inputs/samples/binning/simple_binning.txt");
+	file.open("studies_sampKenj/inputs/samples/binning/WAGASCI.txt");
 	
 	//file << "variables: Pmu Pmu CosThetamu CosThetamu Enu Enu Q2 Q2\n";
-	file << "variables: D1True D1True \n";
+	file << "variables: TruePmu TruePmu \n";
 	for(int i = 0; i < (bins1.size() - 1); i++) {
 		//for(int j = 0; j < (bins2.size() - 1); j++) {
 		file << bins1[i] << " " << bins1[i+1] << "\n"; 

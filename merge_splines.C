@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
-#include <filesystem>
+//#include <filesystem>
+#include <dirent.h>
+#include <stdio.h>
 
 std::vector<std::string> name_spline;
 std::vector<int> sampl;
@@ -62,11 +64,21 @@ void fillSplineNames()
 
 std::string FindPath2Spline(std::string path, std::string name)
 {
-	for(auto& p: std::filesystem::directory_iterator(path)) {
-		std::string path_str = p.path().string();
-		if(path_str.find(name) != std::string::npos) return path_str;	
-	}
-	return "NO MATCH";
+    //std::cout << "DEBUG: PATH IS " << path.c_str() << "\n";
+    DIR* dir = opendir(path.c_str());
+    
+    if(dir == NULL) return "OPENDIR FAILED";
+
+    std::cout << "Directory contents: \n";
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string path_str = entry->d_name;
+		if(path_str.find(name) != std::string::npos) return path+path_str;	
+    }
+
+    // Close the directory
+    closedir(dir);
+    return "NO MATCH";
 }
 
 bool Ignore(std::string title, bool isWG)
@@ -93,7 +105,7 @@ void write_binning(std::string param)
 	
 	std::cout << "Creating binning file: " << path_binning << "\n\n";
 	//file << "variables: Pmu Pmu CosThetamu CosThetamu Enu Enu Q2 Q2\n";
-	file << "variables: sample target reaction_kenji D1True D1True \n";
+	file << "variables: sample target reaction_kenji TruePmu TruePmu \n";
 	int j = 0;
 	for(int i = 0; i < sampl.size(); i++){
 		file << sampl[i] << " " << target[i] << " " << reaction[i] << " ";

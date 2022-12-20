@@ -219,11 +219,11 @@ void merge_trees()
 	t->Branch("topology",&topology);
 	t->Branch("target",&target);
 	// CosThetamu
-	t->Branch("D2True",&D2True);
-	t->Branch("D2Reco",&D2Reco);
+	t->Branch("TrueCosThetamu",&D2True);
+	t->Branch("CosThetamu",&D2Reco);
 	// Pmu
-	t->Branch("D1True",&D1True);
-	t->Branch("D1Reco",&D1Reco);
+	t->Branch("TruePmu",&D1True);
+	t->Branch("Pmu",&D1Reco);
 	t->Branch("Q2",&q2_true);
 	t->Branch("q2_reco",&q2_reco);
 	t->Branch("Enu_reco",&enu_reco);

@@ -8,14 +8,14 @@ void generate_fluxparams()
     TFile *output = new TFile("studies_sampKenj/inputs/parameters/flux/flux_cov_forjointfit.root","RECREATE");
     TFile *input = new TFile("studies_sampKenj/inputs/parameters/flux/total_flux_covariance.root");
 
-    TMatrixTSym<double> *cov = (TMatrixTSym<double>*)input->GetKey("total_flux_cov")->ReadObj(); 
-    //cov->Print();
-    // resize flux matrix to get only the dectors we want
-    cov->ResizeTo(81,320,81,320);
-    cov->Print();
+    // Get input matrix using keys, then cut out a part of the matrix using getsub
+    TMatrixTSym<double> *covIn = (TMatrixTSym<double>*)input->GetKey("total_flux_cov")->ReadObj();
+    // returning matrix of getsub is not a pointer CAREFUL
+    TMatrixTSym<double> covOut(covIn->GetSub(80,319,80,319)); 
+    //covOut.Print();
 
     output->cd();
-    output->WriteObject(cov,"total_flux_cov");
+    covOut.Write("total_flux_cov");
     
 	ofstream file;
 	//file.open("studies_sampKenj/inputs/samples/binning/simple_binning.txt");
@@ -35,6 +35,6 @@ void generate_fluxparams()
 		}
 	}
 	
-	//file.close();
+	file.close();
 }
 
