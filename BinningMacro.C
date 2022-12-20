@@ -15,7 +15,8 @@ void BinningMacro(){
 	file.open("studies_sampKenj/inputs/samples/binning/WAGASCI.txt");
 	
 	//file << "variables: Pmu Pmu CosThetamu CosThetamu Enu Enu Q2 Q2\n";
-	file << "variables: TruePmu TruePmu \n";
+	//file << "variables: TruePmu TruePmu \n";
+	file << "variables: Pmu Pmu \n";
 	for(int i = 0; i < (bins1.size() - 1); i++) {
 		//for(int j = 0; j < (bins2.size() - 1); j++) {
 		file << bins1[i] << " " << bins1[i+1] << "\n"; 

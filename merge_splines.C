@@ -104,8 +104,8 @@ void write_binning(std::string param)
 	file.open(path_binning,ios::out);
 	
 	std::cout << "Creating binning file: " << path_binning << "\n\n";
-	//file << "variables: Pmu Pmu CosThetamu CosThetamu Enu Enu Q2 Q2\n";
-	file << "variables: sample target reaction_kenji TruePmu TruePmu \n";
+	//file << "variables: sample target reaction_kenji TruePmu TruePmu \n";
+	file << "variables: sample target reaction_kenji D1True D1True \n";
 	int j = 0;
 	for(int i = 0; i < sampl.size(); i++){
 		file << sampl[i] << " " << target[i] << " " << reaction[i] << " ";

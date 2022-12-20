@@ -186,7 +186,7 @@ void merge_trees()
         int RecoProton_Topo;
 
         double  PileUpWeight;
-        //int  isRHC;
+        int  isRHC;
         int  passedPsyche;
 
         int isSRC;
@@ -219,10 +219,10 @@ void merge_trees()
 	t->Branch("topology",&topology);
 	t->Branch("target",&target);
 	// CosThetamu
-	t->Branch("TrueCosThetamu",&D2True);
-	t->Branch("CosThetamu",&D2Reco);
+	t->Branch("D2True",&D2True);
+	t->Branch("D2Reco",&D2Reco);
 	// Pmu
-	t->Branch("TruePmu",&D1True);
+	t->Branch("D1True",&D1True);
 	t->Branch("Pmu",&D1Reco);
 	t->Branch("Q2",&q2_true);
 	t->Branch("q2_reco",&q2_reco);
@@ -230,7 +230,8 @@ void merge_trees()
 	t->Branch("POTWeight",&weight);
 	t->Branch("Enu",&Enu);
 	t->Branch("sample",&sample);
-	t->Branch("isRHC",&nutype);
+	t->Branch("nutype",&nutype);
+	t->Branch("isRHC",&isRHC);
 	
 	// branches for necessary for gundam inputs
        	t->Branch("NVertexID", &NVertexID);
@@ -360,6 +361,7 @@ void merge_trees()
 		enu_reco = enu_reco1;
 		weight = weight1;
 		sample = cut_branch1;
+        isRHC = -1;
 
                 Run = -999;
                 RunNumber = -999;
@@ -452,6 +454,7 @@ void merge_trees()
 		enu_reco = enu_reco2;
 		weight = weight2;
 		sample = cut_branch2;
+        isRHC = -1;
 
                 Run = -999;
                 RunNumber = -999;
