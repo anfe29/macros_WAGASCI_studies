@@ -4,9 +4,7 @@
 using namespace std;
 
 std::vector<double> bins1 = {0., 500., 700., 900., 1100., 1500., 30000.};
-//std::vector<double> bins2 = {-1., 0., .4, .6, .8, 1.};
-//std::vector<double> bins3 = {0., 1., 2., 3., 4., 5.};
-//std::vector<double> bins4 = {0., 20000., 40000., 60000., 80000., 100000.};
+//std::vector<double> bins2 = {-1., .57, .71, .77, .82, .87, .91, .94, .97, 1.};
 
 void BinningMacro(){
 

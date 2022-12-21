@@ -148,7 +148,7 @@ void merge_trees()
         int TrueLepPDG;
         double TruePmu;
         double TrueLepMom;
-        double TrueCosThetamu;
+        //double TrueCosThetamu;
         double TrueLepDirX;
         double TrueLepDirY;
         double TrueLepDirZ;
@@ -219,10 +219,10 @@ void merge_trees()
 	t->Branch("topology",&topology);
 	t->Branch("target",&target);
 	// CosThetamu
-	t->Branch("D2True",&D2True);
-	t->Branch("D2Reco",&D2Reco);
+	t->Branch("TrueCosThetamu",&D2True);
+	t->Branch("CosThetamu",&D2Reco);
 	// Pmu
-	t->Branch("D1True",&D1True);
+	t->Branch("TruePmu",&D1True);
 	t->Branch("Pmu",&D1Reco);
 	t->Branch("Q2",&q2_true);
 	t->Branch("q2_reco",&q2_reco);
@@ -250,11 +250,11 @@ void merge_trees()
         t->Branch("TrueNeutrinoDirY", &TrueNeutrinoDirY);
         t->Branch("TrueNeutrinoDirZ", &TrueNeutrinoDirZ);
         t->Branch("TrueLepPDG", &TrueLepPDG);
-        t->Branch("TruePmu", &TruePmu);
+        //t->Branch("TruePmu", &TruePmu);
         t->Branch("TrueLepDirX", &TrueLepDirX);
         t->Branch("TrueLepDirY", &TrueLepDirY);
         t->Branch("TrueLepDirZ", &TrueLepDirZ);
-        t->Branch("TrueCosThetamu", &TrueCosThetamu,"TrueCosThetamu/D");
+        //t->Branch("TrueCosThetamu", &TrueCosThetamu,"TrueCosThetamu/D");
 
         t->Branch("RecoLepDirX", &RecoLepDirX);
         t->Branch("RecoLepDirY", &RecoLepDirY);
@@ -375,11 +375,11 @@ void merge_trees()
                 TrueNeutrinoDirY = -999;
                 TrueNeutrinoDirZ = -999;
                 TrueLepPDG = -999;
-                TruePmu = -999;
+                //TruePmu = -999;
                 TrueLepDirX = -999;
                 TrueLepDirY = -999;
                 TrueLepDirZ = -999;
-                TrueCosThetamu = -999;
+                //TrueCosThetamu = -999;
 
                 RecoLepDirX = -999;
                 RecoLepDirY = -999;
@@ -468,11 +468,11 @@ void merge_trees()
                 TrueNeutrinoDirY = -999;
                 TrueNeutrinoDirZ = -999;
                 TrueLepPDG = -999;
-                TruePmu = -999;
+                //TruePmu = -999;
                 TrueLepDirX = -999;
                 TrueLepDirY = -999;
                 TrueLepDirZ = -999;
-                TrueCosThetamu = -999;
+                //TrueCosThetamu = -999;
 
                 RecoLepDirX = -999;
                 RecoLepDirY = -999;
