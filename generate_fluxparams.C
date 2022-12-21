@@ -21,7 +21,7 @@ void generate_fluxparams()
 	file.open("studies_sampKenj/inputs/parameters/flux/jointflux_binning.txt");
 	
     //std::cout << "variables: SelectedSample NeutrinoCode isRHC Enu Enu\n";
-    file << "variables: NeutrinoCode isRHC Enu Enu\n";
+    file << "variables: isRHC NeutrinoCode Enu Enu\n";
 	for(int i = 0; i < isRHC.size(); i++) {
 		for(int j = 0; j < NeutrinoCode.size(); j++) {
             for(int k = 0; k < (enu.size() - 1); k++) {
