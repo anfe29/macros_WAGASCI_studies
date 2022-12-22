@@ -291,11 +291,11 @@ void merge_trees()
         t->Branch("PileUpWeight", &PileUpWeight);
         t->Branch("passedPsyche", &passedPsyche);
 	t->Branch("ReactionCode",&ReactionCode);
-        t->Branch("NuParent", NuParent);
+        t->Branch("NuParent", &NuParent);
 
         t->Branch("Q2QE", &Q2QE);
         t->Branch("HaveTruth", &HaveTruth);
-        t->Branch("TgtMat", TgtMat);
+        t->Branch("TgtMat", &TgtMat);
         t->Branch("FluxWeight", &FluxWeight);
         t->Branch("TruthVtx", TruthVtx);
         t->Branch("q3", &q3);
