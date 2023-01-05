@@ -1,6 +1,6 @@
 std::vector<double> enu = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 7.0, 10.0};
 std::vector<int> NeutrinoCode = {14, -14};
-std::vector<int> isRHC = {-3, -1 , 0, 1, -2, -2};
+std::vector<int> isRHC = {-1, -3 , 0, 1, -2, -2};
 
 void generate_fluxparams()
 {
