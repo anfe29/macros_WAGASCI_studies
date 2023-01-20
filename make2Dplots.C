@@ -1,3 +1,9 @@
+int calcbin(int samp)
+{
+    std::cout << "Number of events: " << samp << "\tNumber of bins calculated: " << std::round(std::pow(2*samp, 0.4)) << "\tNumber of events per bin: " << samp/(std::round(std::pow(2*samp, 0.4))) << "\n";
+    return std::round(std::pow(2*samp, 0.4));
+}
+
 void make2Dplots()
 {
     // initialize file and tree
@@ -15,32 +21,39 @@ void make2Dplots()
     tree->SetBranchAddress("POTWeight", &peso);
     tree->SetBranchAddress("SelectedSample", &sample);
 
+    // min/max entries per histo
+    int xmax = tree->GetMaximum("cs");
+    int xmin = tree->GetMinimum("cs");
+
+    int ymax = tree->GetMaximum("pmu");
+    int ymin = tree->GetMinimum("pmu");
+
     // create histos
-    TH2D *h1 = new TH2D("h1", "FHC PM-WMRD #nu_{#mu} CC 0#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h1 = new TH2D("h1", "FHC PM-WMRD #nu_{#mu} CC 0#pi", calcbin(tree->GetEntries("SelectedSample == 151")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 151")), ymin, ymax);
     h1->SetXTitle("cos #theta_{#mu}");
     h1->SetYTitle("P_{#mu}");
 
-    TH2D *h2 = new TH2D("h2", "FHC PM-BM #nu_{#mu} CC 0#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h2 = new TH2D("h2", "FHC PM-BM #nu_{#mu} CC 0#pi", calcbin(tree->GetEntries("SelectedSample == 152")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 152")), ymin, ymax);
     h2->SetXTitle("cos #theta_{#mu}");
     h2->SetYTitle("P_{#mu}");
     
-    TH2D *h3 = new TH2D("h3", "FHC PM #nu_{#mu} CC 1#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h3 = new TH2D("h3", "FHC PM #nu_{#mu} CC 1#pi", calcbin(tree->GetEntries("SelectedSample == 153")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 153")), ymin, ymax);
     h3->SetXTitle("cos #theta_{#mu}");
     h3->SetYTitle("P_{#mu}");
     
-    TH2D *h4 = new TH2D("h4", "FHC UWG-WMRD #nu_{#mu} CC 0#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h4 = new TH2D("h4", "FHC UWG-WMRD #nu_{#mu} CC 0#pi", calcbin(tree->GetEntries("SelectedSample == 154")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 154")), ymin, ymax);
     h4->SetXTitle("cos #theta_{#mu}");
     h4->SetYTitle("P_{#mu}");
     
-    TH2D *h5 = new TH2D("h5", "FHC UWG-BM #nu_{#mu} CC 0#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h5 = new TH2D("h5", "FHC UWG-BM #nu_{#mu} CC 0#pi", calcbin(tree->GetEntries("SelectedSample == 155")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 155")), ymin, ymax);
     h5->SetXTitle("cos #theta_{#mu}");
     h5->SetYTitle("P_{#mu}");
 
-    TH2D *h6 = new TH2D("h6", "FHC DWG-BM #nu_{#mu} CC 0#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h6 = new TH2D("h6", "FHC DWG-BM #nu_{#mu} CC 0#pi", calcbin(tree->GetEntries("SelectedSample == 157")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 157")), ymin, ymax);
     h6->SetXTitle("cos #theta_{#mu}");
     h6->SetYTitle("P_{#mu}");
 
-    TH2D *h7 = new TH2D("h7", "FHC WG #nu_{#mu} CC 1#pi", 50, 0, 1, 50, 0, 1500);
+    TH2D *h7 = new TH2D("h7", "FHC WG #nu_{#mu} CC 1#pi", calcbin(tree->GetEntries("SelectedSample == 158")), xmin, xmax, calcbin(tree->GetEntries("SelectedSample == 158")), ymin, ymax);
     h7->SetXTitle("cos #theta_{#mu}");
     h7->SetYTitle("P_{#mu}");
     
