@@ -415,7 +415,9 @@ void mergeWGtrees()
  
                  Q2QE = -999;
                  HaveTruth = 1;
-                 TgtMat = -999;
+                 if(target1 == 0) TgtMat = 16;
+                 else if(target1 == 1) TgtMat = 12;
+                 else TgtMat = -999;
                  FluxWeight = 1;
                  TruthVtx = -999;
                  q3 = -999;
@@ -508,7 +510,9 @@ void mergeWGtrees()
                  HaveTruth = 1;
                  TgtMat = -999;
                  FluxWeight = 1;
-                 TruthVtx = -999;
+                 if(target2 == 0) TgtMat = 16;
+                 else if(target2 == 1) TgtMat = 12;
+                 else TgtMat = -999;
                  q3 = -999;
                  q0 = -999;
                  isSRC = -999;
