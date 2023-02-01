@@ -1,14 +1,16 @@
 int calcbin(int samp)
 {
-    std::cout << "Number of events: " << samp << "\tNumber of bins calculated: " << std::round(std::pow(2*samp, 0.4)) << "\tNumber of events per bin: " << samp/(std::round(std::pow(2*samp, 0.4))) << "\n";
+    //std::cout << "Number of events: " << samp << "\tNumber of bins calculated: " << std::round(std::pow(2*samp, 0.4)) << "\tNumber of events per bin: " << samp/(std::round(std::pow(2*samp, 0.4))) << "\n";
     return std::round(std::pow(2*samp, 0.4));
 }
 
 void make2Dplots()
 {
     // initialize file and tree
-    TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root");
-    TTree *tree = (TTree*)infile->Get("selectedEvents");
+    //TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root");
+    TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event.root");
+    //TTree *tree = (TTree*)infile->Get("selectedEvents");
+    TTree *tree = (TTree*)infile->Get("spline_tree");
 
     // set parameters and variables
     float pmu, cs, peso;
@@ -61,19 +63,19 @@ void make2Dplots()
     for(int ientry = 0; ientry < nevent; ientry++) {
         tree->GetEntry(ientry);
 
-        if ( sample == 151 ) h1->Fill(cs, pmu);
+        if ( sample == 151 ) h1->Fill(cs, pmu, peso);
 
-        if ( sample == 152 ) h2->Fill(cs, pmu);
+        if ( sample == 152 ) h2->Fill(cs, pmu, peso);
 
-        if ( sample == 153 ) h3->Fill(cs, pmu);
+        if ( sample == 153 ) h3->Fill(cs, pmu, peso);
 
-        if ( sample == 154 ) h4->Fill(cs, pmu);
+        if ( sample == 154 ) h4->Fill(cs, pmu, peso);
 
-        if ( sample == 155 ) h5->Fill(cs, pmu);
+        if ( sample == 155 ) h5->Fill(cs, pmu, peso);
 
-        if ( sample == 157 ) h6->Fill(cs, pmu);
+        if ( sample == 157 ) h6->Fill(cs, pmu, peso);
 
-        if ( sample == 158 ) h7->Fill(cs, pmu);
+        if ( sample == 158 ) h7->Fill(cs, pmu, peso);
     }
 
     // draw and save plots
