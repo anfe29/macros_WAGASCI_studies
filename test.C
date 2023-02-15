@@ -1,8 +1,8 @@
 void test()
 {
     // initialize file and tree
-    TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root");
-    TTree *tree = (TTree*)infile->Get("selectedEvents");
+    TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event.root");
+    TTree *tree = (TTree*)infile->Get("spline_tree");
 
     // set parameters from tree
     float pmu, trupmu, cs, trucs, peso;
@@ -11,6 +11,7 @@ void test()
     int nevent = tree->GetEntries();
     double xmin = tree->GetMinimum("Costhetamu");
     double xmax = tree->GetMaximum("CosThetamu");
+    std::vector<double> binarr;
 
     // set branches
     tree->SetBranchAddress("Pmu", &pmu);
@@ -21,43 +22,40 @@ void test()
     tree->SetBranchAddress("SelectedSample", &sample);
 
     // create histo for binning
-    TH1D *h = new TH1D("", "", BINS, xmin, xmax);
-    TCanvas *c1 = new TCanvas();
-    gStyle->SetOptStat(0);
+    TH1D *h = new TH1D("", "", 50, xmin, xmax);
 
-    std::vector<double> var;
     // loop over events
     for(int ientry = 0; ientry < nevent; ientry++) {
         tree->GetEntry(ientry);
+        if(peso > 10) peso = 1;
         if(sample == 153) {
-            h->Fill(cs);
-            var.push_back(cs);
+            h->Fill(cs,peso);
         }
     }
 
-    std::sort (var.begin(), var.end());
     double entriesbin = h->GetEntries()/BINS;
-    double edges[BINS+1];
-    edges[0] = xmin;
-    edges[BINS] = xmax;
 
-    for(int i = 1; i < BINS; i++) {
-        edges[i] = var[std::round(entriesbin*i)];
-        std::cout << edges[i] << "\n";
+    while(h->GetNbins() < BINS) {
+        for(ibin = 1; ibin < h->GetNbins()+1; ibin++) {
+            if(h->GetBinContent(ibin) == 0)
+            if()
+            if()
+
+        }
+        double edges[binarr.size()];
+        for(std::vector<double>::iterator it = binarr.begin() ; it != binarr.end(); ++it) {
+            h->Fill(*it);
+        }
+        //h->Reset();
+        h = (TH1D*) h->Rebin(binarr.size(),"",edges);
     }
-
-    h = (TH1D*) h->Rebin(BINS,"",edges);
-    for(std::vector<double>::iterator it = var.begin() ; it != var.end(); ++it) {
-        h->Fill(*it);
-    }
-
-    h->Scale(peso);
-    h->Draw("hist text65");
-    std::cout << var.size() << "\n";
 
     for(int i=1; i<=BINS;i++){
     std::cout <<"Bin content for bin [" << h->GetXaxis()->GetBinLowEdge(i) << "," << h->GetXaxis()->GetBinUpEdge(i) << "] : " << h->GetBinContent(i)<< "\n";
     }
 
+    TCanvas *c1 = new TCanvas();
+    gStyle->SetOptStat(0);
+    h->Draw("HISTTEXT65");
     c1->SaveAs("plots/test.png");
 }

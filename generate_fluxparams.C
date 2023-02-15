@@ -8,6 +8,7 @@ void generate_fluxparams()
     TMatrixTSym<double> covOut1(240); 
     TMatrixTSym<double> covOut2(200); 
     TMatrixTSym<double> covOut3(160); 
+    TMatrixTSym<double> covOut4(40); 
 
     int n = -1;
     int m = -1;
@@ -33,13 +34,13 @@ void generate_fluxparams()
     n = -1;
     m = -1;
     for(int i = 0; i < covIn->GetNcols(); i++) {
-        if(i < 80 || (i > 99 && i < 140)) continue;
+        if(i < 80 || (i > 119 && i < 160)) continue;
         else {
             n = -1;
             m++;
             n++;
             for(int j = 0; j < covIn->GetNcols(); j++) {
-                if(j < 80 || (j > 99 && j < 140)) continue;
+                if(j < 80 || (j > 119 && j < 160)) continue;
                 else {
                     covOut2[n][m] = (*covIn)[i][j];
                     //std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
@@ -72,10 +73,32 @@ void generate_fluxparams()
     }
     //covOut3.Print();
 
+    n = -1;
+    m = -1;
+    for(int i = 0; i < covIn->GetNcols(); i++) {
+        if(i < 80 || i > 119) continue;
+        else {
+            n = -1;
+            m++;
+            n++;
+            for(int j = 0; j < covIn->GetNcols(); j++) {
+                if(j < 80 || j > 119) continue;
+                else {
+                    covOut4[n][m] = (*covIn)[i][j];
+                    //std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
+                    //std::cout << "New : [" << n << ", " << m << "] : " << covOut4[n][m] << "\n\n";
+                    n++;
+                }
+            }
+        }
+    }
+    //covOut4.Print();
+    
     output->cd();
     covOut1.Write("total_flux_cov");
     covOut2.Write("partial_flux_cov_NoWGRHC");
     covOut3.Write("partial_flux_cov_NoWG");
+    covOut4.Write("partial_flux_cov_OnlyWG");
     output->Close();
 
     // Generate flux binning per cov matrix
@@ -84,17 +107,20 @@ void generate_fluxparams()
     std::vector<int> isRHC1 = {-1, -3, 0, 1, -2, -2};
     std::vector<int> isRHC2 = {-1, 0, 1, -2, -2};
     std::vector<int> isRHC3 = {0, 1, -2, -2};
+    std::vector<int> isRHC4 = {0};
     
-	ofstream file1, file2, file3;
+	ofstream file1, file2, file3, file4;
 	//file.open("studies_sampKenj/inputs/samples/binning/simple_binning.txt");
 	file1.open("studies_sampKenj/inputs/parameters/flux/jointflux_binning.txt");
 	file2.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningNoWGRHC.txt");
 	file3.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningNoWG.txt");
+	file4.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningOnlyWG.txt");
 	
     //std::cout << "variables: SelectedSample NeutrinoCode isRHC Enu Enu\n";
     file1 << "variables: isRHC NeutrinoCode Enu Enu\n";
     file2 << "variables: isRHC NeutrinoCode Enu Enu\n";
     file3 << "variables: isRHC NeutrinoCode Enu Enu\n";
+    file4 << "variables: isRHC NeutrinoCode Enu Enu\n";
 
 	for(int i = 0; i < isRHC1.size(); i++) {
 		for(int j = 0; j < NeutrinoCode.size(); j++) {
@@ -127,8 +153,19 @@ void generate_fluxparams()
         }
     }
 	
+	for(int i = 0; i < isRHC4.size(); i++) {
+		for(int j = 0; j < NeutrinoCode.size(); j++) {
+            for(int k = 0; k < (enu.size() - 1); k++) {
+                //file << bins1[i] << " " << bins1[i+1] << "\n"; 
+                //std::cout << SelectedSample[i] << " " << NeutrinoCode[j] << " " << isRHC[k] << " " << enu[l] << " " << enu[l+1] << "\n"; 
+                file4 << isRHC4[i] << " " << NeutrinoCode[j] << " " << enu[k] << " " << enu[k+1] << "\n"; 
+            }
+        }
+    }
+
 	file1.close();
 	file2.close();
 	file3.close();
+	file4.close();
 }
 
