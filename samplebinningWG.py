@@ -1,5 +1,5 @@
 # define bins
-'''
+pmu = [
         #0, 400, 500, 550, 600, 650, 700, 800, 900, 1100, 1500, 30000]
                 #FHC WAGASCI PM-WMRD #nu_{#mu] CC 0#pi 
         [0, 450, 500, 550, 600, 650, 700, 750, 800, 900, 1100, 30000],
@@ -21,8 +21,8 @@
     #],
     #[   #FHC WAGASCI WG #nu_{#mu] CC 1#pi
         [0, 400, 500, 550, 600, 650, 700, 750, 800, 900, 1100, 1400, 1700, 30000],
+        ]
 '''
-pmu = [
         [   #FHC WAGASCI PM-WMRD #nu_{#mu] CC 0#pi 
             [0, 450, 500, 550, 600, 650, 30000],
             [0, 450, 500, 550, 600, 650, 30000],
@@ -80,6 +80,7 @@ pmu = [
             [0, 400, 500, 550, 600, 650, 700, 750, 800, 900, 1100, 1400, 1700, 30000]
         ],
         ]
+'''
 
 cos  = [ 
        #FHC WAGASCI PM-WMRD #nu_{#mu] CC 0#pi 
@@ -109,11 +110,11 @@ for samp in range(len(samples)):
 
     # iterate over array to write binning
     for i in range(len(cos[samp]) - 1):
-        for j in range(len(pmu[samp][i]) - 1):
-        #for j in range(len(pmu[samp]) - 1):
+        #for j in range(len(pmu[samp][i]) - 1):
+        for j in range(len(pmu[samp]) - 1):
         #for j in range(len(pmu) - 1):
-            line = str(cos[samp][i]) + " " + str(cos[samp][i+1]) + " " + str(pmu[samp][i][j]) + " " + str(pmu[samp][i][j+1]) + "\n" 
-            #line = str(cos[samp][i]) + " " + str(cos[samp][i+1]) + " " + str(pmu[samp][j]) + " " + str(pmu[samp][j+1]) + "\n" 
+            #line = str(cos[samp][i]) + " " + str(cos[samp][i+1]) + " " + str(pmu[samp][i][j]) + " " + str(pmu[samp][i][j+1]) + "\n" 
+            line = str(cos[samp][i]) + " " + str(cos[samp][i+1]) + " " + str(pmu[samp][j]) + " " + str(pmu[samp][j+1]) + "\n" 
             #line = str(cos[samp][i]) + " " + str(cos[samp][i+1]) + " " + str(pmu[j]) + " " + str(pmu[j+1]) + "\n" 
             file.write(line) 
 
