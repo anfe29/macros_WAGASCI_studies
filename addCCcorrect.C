@@ -97,7 +97,7 @@ void addCCcorrect()
 {
     TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event.root");
     TTree *intree = (TTree*) infile->Get("spline_tree");
-    //intree->SetBranchStatus("PmuCoulombCorrection",0);
+    intree->SetName("sample_sum");
     
     TFile *outfile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event_CCcorrected.root","RECREATE");
     TTree *tree = intree->CloneTree();
@@ -107,12 +107,6 @@ void addCCcorrect()
     int ReactionCode;
     float Pmu;
     double PmuCoulombCorrection;
-
-    tree->SetBranchStatus("*", false);
-    tree->SetBranchStatus("NeutrinoCode", true);
-    tree->SetBranchStatus("TgtMat", true);
-    tree->SetBranchStatus("ReactionCode", true);
-    tree->SetBranchStatus("Pmu", true);
 
     tree->SetBranchAddress("NeutrinoCode", &NeutrinoCode);
     tree->SetBranchAddress("TgtMat", &TgtMat);
@@ -133,6 +127,7 @@ void addCCcorrect()
         branch->Fill();
     }
 
+    //tree->Write("sample_sum");
     tree->Write();
     outfile->Close();
 }
