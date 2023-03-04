@@ -107,8 +107,8 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties3.Draw("LP PLC PMC")
 
     c1.Update()     
-    c1.SaveAs("plots/pot_studies/WAGASCI_FGD2/{}.png".format(subsets))
-    #c1.SaveAs("plots/pot_studies/WAGASCI_FGD2/{}_migrad.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD2/{}.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD2/{}_migrad.png".format(subsets))
 
 
 
