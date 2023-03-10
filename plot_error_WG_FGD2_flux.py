@@ -90,7 +90,7 @@ def plot_flux_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     line3.SetTitleSize(1)
     leg.AddEntry(line, "WAGASCI", "l")
     leg.AddEntry(line2, "FGD2", "l")
-    leg.AddEntry(line3, "WAGASCI+FDG2", "l")
+    leg.AddEntry(line3, "WAGASCI+FGD2", "l")
     leg.Draw()
 
     relativeUncertainties2.Draw("LP PLC PMC")

@@ -33,6 +33,7 @@ def rel_error_evolution(i, idials, pot, fit_paths, xsectype=""):
 
 def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     '''plots the relative & absolute xsec errors of all dials, and saves the plots in two canvases'''
+    # change this to choose individual colors?
     if (len(idials) <= 4): gStyle.SetPalette(kBlueGreenYellow)
     else: gStyle.SetPalette(kRainBow)
     gStyle.SetLegendBorderSize(3)
@@ -52,22 +53,22 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties3 = TMultiGraph()
     apot = array('d', pot)
     for i in range(len(dials)):
-        gr_temp = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_wagasci, xsectype))
+        gr_temp = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd2, xsectype))
         gr_temp.SetTitle(dials[i])
         gr_temp.SetMarkerStyle(kFullCircle)
         gr_temp.SetLineWidth(2)
         gr_temp.SetLineStyle(4)
         relativeUncertainties1.Add(gr_temp)
 
-        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd2, xsectype))
-        #gr_temp2.SetTitle(dials[i])
+        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd2_wagasci, xsectype))
+        #gr_temp3.SetTitle(dials[i])
         gr_temp2.SetMarkerStyle(kFullCircle)
         gr_temp2.SetLineWidth(2)
         gr_temp2.SetLineStyle(9)
         relativeUncertainties2.Add(gr_temp2)
 
-        gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd2_wagasci, xsectype))
-        #gr_temp2.SetTitle(dials[i])
+        gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_wagasci, xsectype))
+        #gr_temp3.SetTitle(dials[i])
         gr_temp3.SetMarkerStyle(kFullCircle)
         gr_temp3.SetLineWidth(2)
         relativeUncertainties3.Add(gr_temp3)
@@ -86,29 +87,32 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     gPad.BuildLegend(0.06, 0.52, 0.96, 0.52+(0.99-0.52)*((len(idials))/7.0))
     
     leg = TLegend(0.65, 0.75, 0.95, 0.55)
+
     line = TH1D("h", "", 1, 0, 1)
     line.SetLineColor(kBlack)
     line.SetLineWidth(2)
     line.SetLineStyle(4)
+
     line2 = TH1D("hh", "", 1, 0, 1)
     line2.SetLineColor(kBlack)
     line2.SetLineWidth(2)
     line2.SetLineStyle(9)
+
     line3 = TH1D("hhh", "", 1, 0, 1)
     line3.SetLineColor(kBlack)
     line3.SetLineWidth(2)
-    line3.SetTitleSize(1)
-    leg.AddEntry(line, "WAGASCI", "l")
-    leg.AddEntry(line2, "FGD2", "l")
-    leg.AddEntry(line3, "WAGASCI+FGD2", "l")
+
+    leg.AddEntry(line, "FGD2", "l")
+    leg.AddEntry(line2, "WAGASCI+FGD2", "l")
+    leg.AddEntry(line3, "WAGASCI+FGD", "l")
     leg.Draw()
 
     relativeUncertainties2.Draw("LP PLC PMC")
     relativeUncertainties3.Draw("LP PLC PMC")
 
     c1.Update()     
-    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD2/{}.png".format(subsets))
-    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD2/{}_migrad.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}_migrad.png".format(subsets))
 
 
 
@@ -200,6 +204,16 @@ fit_paths_fgd2_wagasci = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot7.3.root"
 ]
 
+fit_paths_fgd_wagasci = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot7.3.root"
+]
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root
 # if this is no longer the case, change 'fit_path' or the names in getRelError() and getAbsError()
 
