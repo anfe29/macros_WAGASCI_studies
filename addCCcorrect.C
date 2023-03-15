@@ -105,15 +105,18 @@ void addCCcorrect()
     int NeutrinoCode;
     int TgtMat;
     int ReactionCode;
-    float Pmu;
-    double PmuCoulombCorrection;
+    float Pmu,CosThetamu;
+    double PmuCoulombCorrection,D1Reco,D2Reco;
 
     tree->SetBranchAddress("NeutrinoCode", &NeutrinoCode);
     tree->SetBranchAddress("TgtMat", &TgtMat);
     tree->SetBranchAddress("ReactionCode", &ReactionCode);
     tree->SetBranchAddress("Pmu", &Pmu);
+    tree->SetBranchAddress("CosThetamu", &CosThetamu);
 
-    TBranch *branch = tree->Branch("PmuCoulombCorrectionWG", &PmuCoulombCorrection);
+    TBranch *branch1 = tree->Branch("PmuCoulombCorrectionWG", &PmuCoulombCorrection);
+    TBranch *branch2 = tree->Branch("D1Reco", &D1Reco);
+    TBranch *branch3 = tree->Branch("D2Reco", &D2Reco);
 
     int nentries = tree->GetEntries();
     for(int ientry = 0; ientry < nentries; ientry++) {
@@ -123,8 +126,12 @@ void addCCcorrect()
         std::cout << "\nPmu: " << PmuCoulombCorrection << "\n";
         PmuCoulombCorrection += ApplyCoulombShift(NeutrinoCode, TgtMat, TMath::Abs(ReactionCode));
         std::cout << "PmuCoulombCorrection: " << PmuCoulombCorrection << "\n";
+        D1Reco = Pmu;
+        D2Reco = CosThetamu;
 
-        branch->Fill();
+        branch1->Fill();
+        branch2->Fill();
+        branch3->Fill();
     }
 
     //tree->Write("sample_sum");

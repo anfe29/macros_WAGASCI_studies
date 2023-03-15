@@ -51,27 +51,35 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties1 = TMultiGraph()
     relativeUncertainties2 = TMultiGraph()
     relativeUncertainties3 = TMultiGraph()
+    relativeUncertainties4 = TMultiGraph()
     apot = array('d', pot)
     for i in range(len(dials)):
-        gr_temp = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd2, xsectype))
+        gr_temp = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd, xsectype))
         gr_temp.SetTitle(dials[i])
         gr_temp.SetMarkerStyle(kFullCircle)
         gr_temp.SetLineWidth(2)
         gr_temp.SetLineStyle(4)
         relativeUncertainties1.Add(gr_temp)
 
-        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd2_wagasci, xsectype))
+        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_sfgd, xsectype))
         #gr_temp3.SetTitle(dials[i])
         gr_temp2.SetMarkerStyle(kFullCircle)
         gr_temp2.SetLineWidth(2)
-        gr_temp2.SetLineStyle(9)
+        gr_temp2.SetLineStyle(7)
         relativeUncertainties2.Add(gr_temp2)
 
         gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_wagasci, xsectype))
         #gr_temp3.SetTitle(dials[i])
         gr_temp3.SetMarkerStyle(kFullCircle)
         gr_temp3.SetLineWidth(2)
+        gr_temp3.SetLineStyle(9)
         relativeUncertainties3.Add(gr_temp3)
+
+        gr_temp4 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_sfgd_wagasci, xsectype))
+        #gr_temp4.SetTitle(dials[i])
+        gr_temp4.SetMarkerStyle(kFullCircle)
+        gr_temp4.SetLineWidth(2)
+        relativeUncertainties4.Add(gr_temp4)
 
     relativeUncertainties1.GetXaxis().SetTitle("x10^{21} POT")
     relativeUncertainties1.GetXaxis().SetTitleOffset(0.6)
@@ -81,7 +89,7 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties1.GetYaxis().SetTitle("#sigma_{postfit}/#sigma_{prefit}")
     relativeUncertainties1.GetYaxis().SetTitleSize(0.045)
     relativeUncertainties1.GetYaxis().SetLabelSize(0.04505)
-    relativeUncertainties1.SetMaximum(1.1)
+    relativeUncertainties1.SetMaximum(1)
     relativeUncertainties1.SetMinimum(0)
     relativeUncertainties1.Draw("LAP PLC PMC")
     gPad.BuildLegend(0.06, 0.52, 0.96, 0.52+(0.99-0.52)*((len(idials))/7.0))
@@ -96,23 +104,30 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     line2 = TH1D("hh", "", 1, 0, 1)
     line2.SetLineColor(kBlack)
     line2.SetLineWidth(2)
-    line2.SetLineStyle(9)
+    line2.SetLineStyle(7)
 
     line3 = TH1D("hhh", "", 1, 0, 1)
     line3.SetLineColor(kBlack)
     line3.SetLineWidth(2)
+    line3.SetLineStyle(9)
 
-    leg.AddEntry(line, "FGD2", "l")
-    leg.AddEntry(line2, "WAGASCI+FGD2", "l")
-    leg.AddEntry(line3, "WAGASCI+FGD", "l")
+    line4 = TH1D("hhhh", "", 1, 0, 1)
+    line4.SetLineColor(kBlack)
+    line4.SetLineWidth(2)
+
+    leg.AddEntry(line, "FGD", "l")
+    leg.AddEntry(line2, "FGD+SFGD", "l")
+    leg.AddEntry(line3, "WG+FGD", "l")
+    leg.AddEntry(line4, "WG+FGD+SFGD", "l")
     leg.Draw()
 
     relativeUncertainties2.Draw("LP PLC PMC")
     relativeUncertainties3.Draw("LP PLC PMC")
+    relativeUncertainties4.Draw("LP PLC PMC")
 
     c1.Update()     
     #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}.png".format(subsets))
-    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}_migrad.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_migrad.png".format(subsets))
 
 
 
@@ -168,40 +183,27 @@ subsets = [
         "Pi_FSI" # FSI
 ]
 pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
-#pot = [0.33, 1.3, 2.3, 3.3]
 
-
-fit_paths_wagasci = [
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot0.33.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot1.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot2.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot3.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot4.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot5.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot6.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot7.3.root"
+fit_paths_fgd = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot7.3.root"
 ]
 
-fit_paths_fgd2 = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot7.3.root"
-]
-
-fit_paths_fgd2_wagasci = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot7.3.root"
+fit_paths_fgd_sfgd = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot7.3.root"
 ]
 
 fit_paths_fgd_wagasci = [
@@ -213,6 +215,17 @@ fit_paths_fgd_wagasci = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot5.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot6.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot7.3.root"
+]
+
+fit_paths_fgd_sfgd_wagasci = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot7.3.root"
 ]
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root
 # if this is no longer the case, change 'fit_path' or the names in getRelError() and getAbsError()
@@ -230,6 +243,6 @@ print("Number of POT sets: "+str(len(pot)))
 
 for i in range(len(subsets)):
     print("Processing subset :"+subsets[i])
-    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_wagasci)
+    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd)
 
 print("Done")

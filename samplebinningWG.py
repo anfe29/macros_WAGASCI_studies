@@ -41,7 +41,8 @@ for samp in range(len(samples)):
 
     # write binning variables on first line of file
     #file.write("variables: CosThetamu CosThetamu Pmu Pmu\n")
-    file.write("variables: Pmu Pmu CosThetamu CosThetamu\n")
+    #file.write("variables: Pmu Pmu CosThetamu CosThetamu\n")
+    file.write("variables: D1Reco D1Reco D2Reco D2Reco\n")
 
     # iterate over array to write binning
     for i in range(len(pmu[samp]) - 1):

@@ -83,8 +83,7 @@ for i in range(0, NOBSNORM):
 
 passed = False
 for i in range(0, gundam_prefit_xsec.GetNbinsX()):
-    if (i < gundam_prefit_xsec.GetNbinsX()-4 and "2p2h_Edep" in str(gundam_labels_xsec[i])): 
-        passed = True
+    if (i < gundam_prefit_xsec.GetNbinsX()-4 and "2p2h_Edep" in str(gundam_labels_xsec[i])): passed = True
         continue
     if (passed): j = i-4
     else: j=i

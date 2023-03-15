@@ -3,29 +3,13 @@ void make2Dplots()
     // initialize file and tree
     //TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root");
     //TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event.root");
-    TFile *outfile = new TFile("plots/2Dhist/2Dplot.root","RECREATE");
-    //TTree *tree = (TTree*)infile->Get("selectedEvents");
-    TChain *tree = new TChain("sample_sum");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run2aMCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run2wMCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run3MCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run4aMCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run4wMCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run5MCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run6MCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run7MCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run8aMCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run8wMCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run9MCsplines_ForSFGD.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/SFGD_BANFFFormat_anu_500k_NaturalUnits_goodq3units_flatsplines_fixRS_wCoulombCorrection.root");
-    tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/SFGD_BANFFFormat_nu_2M_NaturalUnits_goodq3units_flatsplines_fixRS_wCoulombCorrection.root");
-    //tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event_CCcorrected.root");
+    TFile *outfile = new TFile("plots/2Dhist/2Dplot_WG.root","RECREATE");
+    TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event_CCcorrected.root");
+    TTree *tree = (TTree*)infile->Get("sample_sum");
 
     // set parameters and variables
     const int SAMPLES = 35;
-    double pmu, cs, peso;
     float WGpmu, WGcs, WGpeso;
-    int WGsample;
     int sample;
     int nevent = tree->GetEntries();
 
@@ -36,46 +20,10 @@ void make2Dplots()
     tree->SetBranchAddress("SelectedSample", &sample);
     
     int nsamp[SAMPLES] = {
-        // FHC FGD
-        7, 8, 10, 12, 13, 31, 32, 34, 36, 37, 
-        // RHC FGD
-        59, 60, 61, 65, 66, 67, 71, 72, 73, 77, 78, 79, 
-        // FHC SFGD
-        101, 102, 103,
-        // RHC SFGD
-        111, 112, 113,
         // FHC WAGASCI
         151, 152, 153, 154, 155, 157, 158};
 
     std::string nhist[SAMPLES] = {
-        "FHC FGD1 #nu_{#mu} CC 0#pi 0p 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC 0#pi Np 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC 1#pi 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC Other 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC #gamma",
-        "FHC FGD2 #nu_{#mu} CC 0#pi 0p 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC 0#pi Np 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC 1#pi 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC Other 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC #gamma",
-        "RHC FGD1 Anti #nu_{#mu} CC 0#pi",
-        "RHC FGD1 Anti #nu_{#mu} CC 1#pi",
-        "RHC FGD1 Anti #nu_{#mu} CC Other",
-        "RHC FGD2 Anti #nu_{#mu} CC 0#pi",
-        "RHC FGD2 Anti #nu_{#mu} CC 1#pi",
-        "RHC FGD2 Anti #nu_{#mu} CC Other",
-        "RHC FGD1 #nu_{#mu} (background) CC 0#pi in AntiNu_Mode",
-        "RHC FGD1 #nu_{#mu} (background) CC 1#pi in AntiNu_Mode",
-        "RHC FGD1 #nu_{#mu} (background) CC Other in AntiNu_Mode",
-        "RHC FGD2 #nu_{#mu} (background) CC 0#pi in AntiNu_Mode",
-        "RHC FGD2 #nu_{#mu} (background) CC 1#pi  in AntiNu_Mode",
-        "RHC FGD2 #nu_{#mu} (background) CC Other  in AntiNu_Mode",
-        "FHC SFGD #nu_{#mu} CC 0#pi 0p",
-        "FHC SFGD #nu_{#mu} CC 0#pi Np",
-        "FHC SFGD #nu_{#mu} CC 1#pi 0p",
-        "RHC SFGD #bar{#nu}_{#mu} CC 0#pi 0n",
-        "RHC SFGD #bar{#nu}_{#mu} CC 0#pi Nn",
-        "RHC SFGD #bar{#nu}_{#mu} CC 1#pi 0n",
         "FHC WAGASCI PM-WMRD #nu_{#mu} CC-0#pi", 
         "FHC WAGASCI PM-BM #nu_{#mu} CC-0#pi",
         "FHC WAGASCI PM #nu_{#mu} CC-1#pi", 
@@ -112,7 +60,6 @@ void make2Dplots()
 
     }
 
-    TFile *WGfile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event_CCcorrected.root");
     TTree *WGtree = (TTree*)WGfile->Get("sample_sum");
 
     nevent = WGtree->GetEntries();
