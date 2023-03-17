@@ -8,9 +8,9 @@ CC_norm_nubar                FEFCX                      P3_2Shell_MF_PMissShape_
 CC_norm_nu                   FEFINEL                    Pauli_Blocking_C_nubar
 CC_MultiPi_norm_nubar        FEFQEH                     Pauli_Blocking_C_nu
 CC_MultiPi_norm_nu           FEFQE                      Pauli_Blocking_O_nubar
-MAQE                         Q2_norm_1                  Pauli_Blocking_O_nu
-MARES                        Q2_norm_2                  PShell_MF_Norm_C
-2p2h_Norm_C                  Q2_norm_3                  PShell_MF_PMissShape_C
+MAQE                         Q2_norm_5                  Pauli_Blocking_O_nu
+MARES                        Q2_norm_6                  PShell_MF_Norm_C
+2p2h_Norm_C                  Q2_norm_7                  PShell_MF_PMissShape_C
 2p2h_Norm_O                  RES_Eb_C_numubar           SRC_Norm_C
 2p2h_Norm_Other              RES_Eb_C_numu              SRC_Norm_O
 2p2h_shape_C_NN              RES_Eb_O_numubar           SShell_MF_Norm_C

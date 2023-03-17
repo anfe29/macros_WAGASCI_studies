@@ -17,8 +17,7 @@ void make2DplotsWG()
         {0, 0.425, 0.525, 0.65, 0.75, 0.9, 1},    
         //FHC WAGASCI PM-BM #nu_{#mu} CC 0#pi
         {0, 0.85, 0.9, 0.94, 0.96, 0.98, 1},   
-        //FHC WAGASCI PM #nu_{#mu} CC 1#pi 
-        {0, 0.5, 0.63, 0.72, 0.87, 0.98, 1}, 
+        //FHC WAGASCI PM #nu_{#mu} CC 1#pi {0, 0.5, 0.63, 0.72, 0.87, 0.98, 1}, 
         //FHC WAGASCI UWG-WMRD #nu_{#mu} CC 0#pi 
         {0, 0.5, 0.64, 0.7, 0.85, 1},
         //FHC WAGASCI UWG-BM #nu_{#mu} CC 0#pi     
