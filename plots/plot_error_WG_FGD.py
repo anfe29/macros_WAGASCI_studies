@@ -111,7 +111,7 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties3.Draw("LP PLC PMC")
 
     c1.Update()     
-    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}_hesse.png".format(subsets))
     c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}_migrad.png".format(subsets))
 
 
@@ -170,26 +170,26 @@ subsets = [
 pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
 #pot = [0.33, 1.3, 2.3, 3.3]
 
-fit_paths_fgd = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot7.3.root"
+fit_paths_fgd2 = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot7.3.root"
 ]
 
-fit_paths_fgd_sfgd = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot7.3.root"
+fit_paths_fgd2_wagasci = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot7.3.root"
 ]
 
 fit_paths_fgd_wagasci = [
@@ -201,17 +201,6 @@ fit_paths_fgd_wagasci = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot5.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot6.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD/pot7.3.root"
-]
-
-fit_paths_fgd_sfgd_wagasci = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot7.3.root"
 ]
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root
 # if this is no longer the case, change 'fit_path' or the names in getRelError() and getAbsError()
@@ -229,6 +218,6 @@ print("Number of POT sets: "+str(len(pot)))
 
 for i in range(len(subsets)):
     print("Processing subset :"+subsets[i])
-    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_wagasci)
+    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd2)
 
 print("Done")

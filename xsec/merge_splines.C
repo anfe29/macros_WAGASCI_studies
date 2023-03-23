@@ -9,9 +9,9 @@ std::vector<int> sampl;
 std::vector<int> target;
 std::vector<int> reaction;
 std::vector<double> cs = {0.34, 1.0};
-std::vector<double> pmu = {0., 500., 700., 900., 1100., 1500., 5000.};
+std::vector<double> pmu = {300., 500., 700., 900., 1100., 1500., 5000.};
 std::vector<std::string> word_array = {"sam","tar","reac"};
-std::string dir_pmu = "xsec_sampKenj/inputs/splines/";
+std::string dir_pmu = "CC0pi_fitting_materials/pmu/splines/";
 TFile *f_output = NULL;
 TObjArray *grapharray = NULL;
 
@@ -51,9 +51,9 @@ std::string FindPath2Spline(std::string path, std::string name)
     return "NO MATCH";
 }
 
-void write_binning()
+void write_binning(std::string param)
 {
-	std::string path_binning = "xsec_sampKenj/inputs/splines/xsec_binning.txt";
+	std::string path_binning = "xsec_sampKenj/inputs/splines/xsec_" + param + "_binning.txt";
 
 	fstream file;
 	file.open(path_binning,ios::out);
@@ -98,22 +98,31 @@ void combineSplines()
 		while ((key = (TKey*)keyList())) {
 			TGraph *g = (TGraph*)key->ReadObj();
 			title_g = g->GetTitle();
-			//std::cout << "Reading: " << title_g << "\n";
+			std::cout << "Reading: " << title_g << "\t";
 			int n = 0;
-			//std::cout << " =>Contents of spline : ";
+			std::cout << " =>Contents of spline : ";
 			for(int k = 0; k < g->GetMaxSize(); k++) {
-				//std::cout << "  " << g->GetPointY(k);
+				std::cout << g->GetPointY(k) << "  ";
 				if(g->GetPointY(k) == 1) n++;
 			}
+            std::cout << std::endl;
 
-            //std::cout << " => Adding\n";
-            //std::cout << "Mean : " << g->GetMean(2) << " \n";
             // fill tstring array for the binning 
-            if( i == 0 ) fillStringArray(title_g);
-            grapharray->Add(g);
+			if(n == g->GetMaxSize()) {
+				//std::cout << " => Ignoring\n";
+				continue;
+			}
+			else {
+				std::cout << " => Adding\n";
+				std::cout << "Mean : " << g->GetMean(2) << " \n";
+				// fill tstring array for the binning 
+				fillStringArray(title_g);
+				grapharray->Add(g);
+			}
 		}
 
 		std::cout << "Writing " << name_spline[i] << " to output file \n";
+        write_binning(name_spline[i]);
 		f_output->cd();
 		f_output->WriteObject(grapharray,name_spline[i].c_str());
 	}
@@ -123,7 +132,6 @@ void combineSplines()
 void merge_splines()
 {
 	combineSplines();
-    write_binning();
 
 	std::cout << "Done\n";
 

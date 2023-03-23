@@ -10,14 +10,14 @@ def getRelError(i, idials, year, fit_path, xsectype=""):
     '''Returns the relative error of dials[i] for a specified year'''
     file = TFile(fit_path)
     if (xsectype == "CCQE_EB"):
-        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
-        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
     elif (xsectype == "FSI"):
-        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
-        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
     else:
-        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
-        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
 
     err = xsec.GetBinError(idials[i])
     return err
@@ -60,14 +60,14 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
         gr_temp.SetLineStyle(4)
         relativeUncertainties1.Add(gr_temp)
 
-        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_sfgd, xsectype))
+        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_OA, xsectype))
         #gr_temp3.SetTitle(dials[i])
         gr_temp2.SetMarkerStyle(kFullCircle)
         gr_temp2.SetLineWidth(2)
-        gr_temp2.SetLineStyle(7)
+        gr_temp2.SetLineStyle(9)
         relativeUncertainties2.Add(gr_temp2)
 
-        gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_sfgd_wagasci, xsectype))
+        gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_all, xsectype))
         #gr_temp3.SetTitle(dials[i])
         gr_temp3.SetMarkerStyle(kFullCircle)
         gr_temp3.SetLineWidth(2)
@@ -81,7 +81,7 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties1.GetYaxis().SetTitle("#sigma_{postfit}/#sigma_{prefit}")
     relativeUncertainties1.GetYaxis().SetTitleSize(0.045)
     relativeUncertainties1.GetYaxis().SetLabelSize(0.04505)
-    relativeUncertainties1.SetMaximum(1)
+    relativeUncertainties1.SetMaximum(1.1)
     relativeUncertainties1.SetMinimum(0)
     relativeUncertainties1.Draw("LAP PLC PMC")
     gPad.BuildLegend(0.06, 0.52, 0.96, 0.52+(0.99-0.52)*((len(idials))/7.0))
@@ -96,23 +96,23 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     line2 = TH1D("hh", "", 1, 0, 1)
     line2.SetLineColor(kBlack)
     line2.SetLineWidth(2)
-    line2.SetLineStyle(7)
+    line2.SetLineStyle(9)
 
     line3 = TH1D("hhh", "", 1, 0, 1)
     line3.SetLineColor(kBlack)
     line3.SetLineWidth(2)
 
-    leg.AddEntry(line, "FGD", "l")
-    leg.AddEntry(line2, "FGD+SFGD", "l")
-    leg.AddEntry(line3, "WG+FGD+SFGD", "l")
+    leg.AddEntry(line, "Caspar flux", "l")
+    leg.AddEntry(line2, "OA flux", "l")
+    leg.AddEntry(line3, "Caspar all param", "l")
     leg.Draw()
 
     relativeUncertainties2.Draw("LP PLC PMC")
     relativeUncertainties3.Draw("LP PLC PMC")
 
     c1.Update()     
-    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_hesse.png".format(subsets))
-    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_migrad.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}_hesse.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/xsec/FGD_fluxtest2/{}_migrad.png".format(subsets))
 
 
 
@@ -167,39 +167,28 @@ subsets = [
         "CCQE_EB", # EB
         "Pi_FSI" # FSI
 ]
-pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
+#pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
+pot = [0.33, 1.3, 2.3, 3.3]
 
 fit_paths_fgd = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot0.33.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot1.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot2.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot7.3.root"
 ]
 
-fit_paths_fgd_sfgd = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD/pot7.3.root"
+fit_paths_fgd_OA = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_OAflux/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_OAflux/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_OAflux/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_OAflux/pot3.3.root",
 ]
 
-fit_paths_fgd_sfgd_wagasci = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD/pot7.3.root"
+fit_paths_fgd_all = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_all/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_all/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_all/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_all/pot3.3.root",
 ]
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root
 # if this is no longer the case, change 'fit_path' or the names in getRelError() and getAbsError()
