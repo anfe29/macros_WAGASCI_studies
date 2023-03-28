@@ -70,7 +70,7 @@ def plot_flux_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties1.GetYaxis().SetTitle("#sigma_{postfit}/#sigma_{prefit}")
     relativeUncertainties1.GetYaxis().SetTitleSize(0.045)
     relativeUncertainties1.GetYaxis().SetLabelSize(0.04505)
-    relativeUncertainties1.SetMaximum(2.2)
+    relativeUncertainties1.SetMaximum(1.5)
     relativeUncertainties1.SetMinimum(0)
     relativeUncertainties1.Draw("LAP PLC PMC")
     gPad.BuildLegend(0.06, 0.52, 0.96, 0.52+(0.99-0.52)*((len(idials))/7.0))
@@ -97,8 +97,8 @@ def plot_flux_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties3.Draw("LP PLC PMC")
 
     c1.Update()     
-    #c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD2/{}_hesse.png".format(subsets))
-    c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD2/{}_migrad.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD2/{}_hesse.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD2/{}_migrad.png".format(subsets))
 
 
 
@@ -256,19 +256,19 @@ subsets = [
         "bin 236-240 RHC SK #bar{#nu}_{#mu} High Enu", 
 ]
 
-pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
-#pot = [0.33, 1.3, 2.3, 3.3]
+#pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
+pot = [0.33, 1.3, 2.3, 3.3]
 
 
 fit_paths_wagasci = [
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot0.33.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot1.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot2.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot3.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot4.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot5.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot6.3.root",
-    "studies_sampKenj/outputs/wagasci_studies/higher_stats/pot7.3.root"
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot3.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot4.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot5.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot6.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI/pot7.3.root"
 ]
 
 fit_paths_fgd2 = [
@@ -276,10 +276,10 @@ fit_paths_fgd2 = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot1.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot2.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot7.3.root"
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot4.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot5.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot6.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD2/pot7.3.root"
 ]
 
 fit_paths_fgd2_wagasci = [
@@ -287,10 +287,10 @@ fit_paths_fgd2_wagasci = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot1.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot2.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot7.3.root"
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot4.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot5.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot6.3.root",
+    #"studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD2/pot7.3.root"
 ]
 
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root

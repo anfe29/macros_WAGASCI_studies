@@ -10,14 +10,14 @@ def getRelError(i, idials, year, fit_path, xsectype=""):
     '''Returns the relative error of dials[i] for a specified year'''
     file = TFile(fit_path)
     if (xsectype == "CCQE_EB"):
-        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
-        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
     elif (xsectype == "FSI"):
-        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
-        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
     else:
-        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
-        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
 
     err = xsec.GetBinError(idials[i])
     return err
@@ -111,8 +111,8 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties3.Draw("LP PLC PMC")
 
     c1.Update()     
-    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_hesse.png".format(subsets))
-    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_migrad.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_hesse.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_SFGD/{}_migrad.png".format(subsets))
 
 
 
