@@ -10,14 +10,14 @@ def getRelError(i, idials, year, fit_path, xsectype=""):
     '''Returns the relative error of dials[i] for a specified year'''
     file = TFile(fit_path)
     if (xsectype == "CCQE_EB"):
-        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
-        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section (binned) Systematics/valuesNorm/postFitErrors_TH1D')
     elif (xsectype == "FSI"):
-        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
-        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section FSI Systematics/valuesNorm/postFitErrors_TH1D')
     else:
-        #xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
-        xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
+        xsec = file.Get('FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
+        #xsec = file.Get('FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D')
 
     err = xsec.GetBinError(idials[i])
     return err
@@ -31,7 +31,7 @@ def rel_error_evolution(i, idials, pot, fit_paths, xsectype=""):
         j += 1
     return err_evol
 
-def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
+def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_fgd_rhc):
     '''plots the relative & absolute xsec errors of all dials, and saves the plots in two canvases'''
     # change this to choose individual colors?
     if (len(idials) <= 4): gStyle.SetPalette(kBlueGreenYellow)
@@ -51,27 +51,35 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties1 = TMultiGraph()
     relativeUncertainties2 = TMultiGraph()
     relativeUncertainties3 = TMultiGraph()
+    relativeUncertainties4 = TMultiGraph()
     apot = array('d', pot)
     for i in range(len(dials)):
-        gr_temp = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd, xsectype))
+        gr_temp = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_rhc, xsectype))
         gr_temp.SetTitle(dials[i])
         gr_temp.SetMarkerStyle(kFullCircle)
         gr_temp.SetLineWidth(2)
         gr_temp.SetLineStyle(4)
         relativeUncertainties1.Add(gr_temp)
 
-        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_rhc, xsectype))
+        gr_temp2 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_wagasci_rhc, xsectype))
         #gr_temp3.SetTitle(dials[i])
         gr_temp2.SetMarkerStyle(kFullCircle)
         gr_temp2.SetLineWidth(2)
         gr_temp2.SetLineStyle(9)
         relativeUncertainties2.Add(gr_temp2)
 
-        gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_fgd_wagasci_rhc, xsectype))
+        gr_temp3 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_sfgd_rhc, xsectype))
         #gr_temp3.SetTitle(dials[i])
         gr_temp3.SetMarkerStyle(kFullCircle)
         gr_temp3.SetLineWidth(2)
+        gr_temp3.SetLineStyle(7)
         relativeUncertainties3.Add(gr_temp3)
+
+        gr_temp4 = TGraph(len(pot), apot, rel_error_evolution(i, idials, pot, fit_paths_sfgd_wagasci_rhc, xsectype))
+        #gr_temp4.SetTitle(dials[i])
+        gr_temp4.SetMarkerStyle(kFullCircle)
+        gr_temp4.SetLineWidth(2)
+        relativeUncertainties4.Add(gr_temp4)
 
     relativeUncertainties1.GetXaxis().SetTitle("x10^{21} POT")
     relativeUncertainties1.GetXaxis().SetTitleOffset(0.6)
@@ -101,18 +109,25 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     line3 = TH1D("hhh", "", 1, 0, 1)
     line3.SetLineColor(kBlack)
     line3.SetLineWidth(2)
+    line3.SetLineStyle(7)
 
-    leg.AddEntry(line, "FGD FHC", "l")
-    leg.AddEntry(line2, "FGD FHC+RHC", "l")
-    leg.AddEntry(line3, "WG+FGD FHC+RHC", "l")
+    line4 = TH1D("hhhh", "", 1, 0, 1)
+    line4.SetLineColor(kBlack)
+    line4.SetLineWidth(2)
+
+    leg.AddEntry(line, "FGD FHC+RHC", "l")
+    leg.AddEntry(line2, "WG+FGD FHC+RHC", "l")
+    leg.AddEntry(line3, "FGD+SFGD FHC+RHC", "l")
+    leg.AddEntry(line4, "WG+FGD+SFGD FHC+RHC", "l")
     leg.Draw()
 
     relativeUncertainties2.Draw("LP PLC PMC")
     relativeUncertainties3.Draw("LP PLC PMC")
+    relativeUncertainties4.Draw("LP PLC PMC")
 
     c1.Update()     
-    #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD/{}_hesse.png".format(subsets))
-    c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_RHC/{}_migrad.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/xsec/WG_FGD_SFGD_RHC/{}_hesse.png".format(subsets))
+    #c1.SaveAs("plots/pot_studies/xsec/WG_FGD_SFGD_RHC/{}_migrad.png".format(subsets))
 
 
 
@@ -170,13 +185,6 @@ subsets = [
 #pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
 pot = [0.33, 1.3, 2.3, 3.3]
 
-fit_paths_fgd = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD/pot3.3.root",
-]
-
 fit_paths_fgd_rhc = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD/pot0.33.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD/pot1.3.root",
@@ -184,11 +192,25 @@ fit_paths_fgd_rhc = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD/pot3.3.root",
 ]
 
-fit_paths_fgd_wagasci_rhc  = [
+fit_paths_fgd_wagasci_rhc = [
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WAGASCI_FGD/pot0.33.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WAGASCI_FGD/pot1.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WAGASCI_FGD/pot2.3.root",
     "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WAGASCI_FGD/pot3.3.root",
+]
+
+fit_paths_sfgd_rhc  = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD_SFGD/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD_SFGD/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD_SFGD/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/FGD_SFGD/pot3.3.root",
+]
+
+fit_paths_sfgd_wagasci_rhc  = [
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WG_FGD_SFGD/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WG_FGD_SFGD/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WG_FGD_SFGD/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc_rhc/WG_FGD_SFGD/pot3.3.root",
 ]
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root
 # if this is no longer the case, change 'fit_path' or the names in getRelError() and getAbsError()
@@ -206,6 +228,6 @@ print("Number of POT sets: "+str(len(pot)))
 
 for i in range(len(subsets)):
     print("Processing subset :"+subsets[i])
-    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd)
+    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd_rhc)
 
 print("Done")

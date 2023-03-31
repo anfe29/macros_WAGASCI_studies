@@ -63,7 +63,7 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_wagasci):
     relativeUncertainties1.GetYaxis().SetTitleSize(0.045)
     relativeUncertainties1.GetYaxis().SetLabelSize(0.04505)
     #relativeUncertainties1.SetMaximum(1.5)
-    relativeUncertainties1.SetMinimum(0.3)
+    relativeUncertainties1.SetMinimum(0.2)
     relativeUncertainties1.Draw("LAP PLC PMC")
     gPad.BuildLegend(0.05, 0.52, 0.95, 0.52+(0.99-0.52)*((len(idials))/7.0))
     

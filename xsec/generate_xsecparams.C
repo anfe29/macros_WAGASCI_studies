@@ -123,13 +123,17 @@ void generate_xsecparams()
 
         //if(strcmp(name_dials[i].c_str(),"RES_Eb_C_numu") == 0) {
         if(i == 13) {
+            //prior[i] = 1.0;
+            //prior[i] = 0.004001;
             prior[i] = 0.0;
-            lb[i] = 0.0;
+            lb[i] = -0.5;
             ub[i] = 2.0;
         }
 
         //if(strcmp(name_dials[i].c_str(),"RES_Eb_O_numu") == 0) {
         if(i == 14) {
+            //prior[i] = 1.0;
+            //prior[i] = 0.004001;
             prior[i] = 0.0;
             lb[i] = -0.5;
             ub[i] = 2.0;
@@ -137,7 +141,7 @@ void generate_xsecparams()
         //if(strcmp(name_dials[i].c_str(),"ISO_BKG") == 0) {
         if(i == 15) {
             prior[i] = 1.0;
-            lb[i] = -0.5;
+            lb[i] = 0.0;
             ub[i] = 2.0;
         }
 

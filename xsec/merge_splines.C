@@ -14,6 +14,7 @@ std::vector<std::string> word_array = {"sam","tar","reac"};
 std::string dir_pmu = "CC0pi_fitting_materials/pmu/splines/";
 TFile *f_output = NULL;
 TObjArray *grapharray = NULL;
+TSpline3 *spline = NULL;
 
 void fillStringArray(std::string n_spline)
 {
@@ -117,7 +118,9 @@ void combineSplines()
 				std::cout << "Mean : " << g->GetMean(2) << " \n";
 				// fill tstring array for the binning 
 				fillStringArray(title_g);
-				grapharray->Add(g);
+				//grapharray->Add(g);
+                spline = new TSpline3(title_g.c_str(), g);
+				grapharray->Add(spline);
 			}
 		}
 
