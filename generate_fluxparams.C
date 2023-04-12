@@ -9,7 +9,7 @@ void generate_fluxparams()
     TMatrixTSym<double> covOut2(200); 
     TMatrixTSym<double> covOut3(160); 
     TMatrixTSym<double> covOut4(40); 
-    TMatrixTSym<double> covOut5(80); 
+    TMatrixTSym<double> covOut5(40); 
 
     int n = -1;
     int m = -1;
@@ -98,17 +98,17 @@ void generate_fluxparams()
     n = -1;
     m = -1;
     for(int i = 0; i < covIn->GetNcols(); i++) {
-        if(i < 80 || i > 159) continue;
+        if(i < 80 || (i > 99 && i < 120) || i > 139) continue;
         else {
             n = -1;
             m++;
             n++;
             for(int j = 0; j < covIn->GetNcols(); j++) {
-                if(j < 80 || j > 159) continue;
+                if(j < 80 || (j > 99 && j < 120) || j > 139) continue;
                 else {
                     covOut5[n][m] = (*covIn)[i][j];
-                    //std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
-                    //std::cout << "New : [" << n << ", " << m << "] : " << covOut5[n][m] << "\n\n";
+                    std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
+                    std::cout << "New : [" << n << ", " << m << "] : " << covOut5[n][m] << "\n\n";
                     n++;
                 }
             }
@@ -131,7 +131,7 @@ void generate_fluxparams()
     std::vector<int> isRHC2 = {-1, 0, 1, -2, -2};
     std::vector<int> isRHC3 = {0, 1, -2, -2};
     std::vector<int> isRHC4 = {-1};
-    std::vector<int> isRHC5 = {-1, 0, 1};
+    std::vector<int> isRHC5 = {-1, 0};
 
 	ofstream file1, file2, file3, file4, file5;
 	//file.open("studies_sampKenj/inputs/samples/binning/simple_binning.txt");
@@ -189,13 +189,11 @@ void generate_fluxparams()
         }
     }
 
-	for(int i = 0; i < isRHC5.size(); i++) {
-		for(int j = 0; j < NeutrinoCode.size(); j++) {
-            for(int k = 0; k < (enu.size() - 1); k++) {
-                //file << bins1[i] << " " << bins1[i+1] << "\n"; 
-                //std::cout << SelectedSample[i] << " " << NeutrinoCode[j] << " " << isRHC[k] << " " << enu[l] << " " << enu[l+1] << "\n"; 
-                file5 << isRHC5[i] << " " << NeutrinoCode[j] << " " << enu[k] << " " << enu[k+1] << "\n"; 
-            }
+    for(int i = 0; i < isRHC5.size(); i++) {
+        for(int k = 0; k < (enu.size() - 1); k++) {
+            //file << bins1[i] << " " << bins1[i+1] << "\n"; 
+            //std::cout << SelectedSample[i] << " " << NeutrinoCode[j] << " " << isRHC[k] << " " << enu[l] << " " << enu[l+1] << "\n"; 
+            file5 << isRHC5[i] << " " << NeutrinoCode[0] << " " << enu[k] << " " << enu[k+1] << "\n"; 
         }
     }
 

@@ -25,7 +25,7 @@ def rel_error_evolution(i, idials, pot, fit_paths):
         j += 1
     return err_evol
 
-def plot_flux_errs(subsets, dials, idials, pot, fit_paths_fgd_fhc):
+def plot_flux_errs(file, subsets, dials, idials, pot, fit_paths_fgd_fhc):
     '''plots the relative & absolute flux errors of all dials, and saves the plots in two canvases'''
     if (len(idials) <= 4): gStyle.SetPalette(kBlueGreenYellow)
     else: gStyle.SetPalette(kRainBow)
@@ -99,6 +99,9 @@ def plot_flux_errs(subsets, dials, idials, pot, fit_paths_fgd_fhc):
     c1.Update()     
     #c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD_onlyFHC/{}_hesse.png".format(subsets))
     c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD_onlyFHC/{}_migrad.png".format(subsets))
+    file.cd()
+    c1.SetName("{}_migrad".format(subsets))
+    c1.Write()
 
 
 
@@ -111,26 +114,9 @@ idialsset = [
         [26, 27, 28, 29, 30],
         [31, 32, 33, 34, 35],
         [36, 37, 38, 39, 40],  
-        [41, 42, 43, 44, 45],
-        [46, 47, 48, 49, 50],
-        [51, 52, 53, 54, 55],
-        [56, 57, 58, 59, 60],  
-        [61, 62, 63, 64, 65],
-        [66, 67, 68, 69, 70],
-        [71, 72, 73, 74, 75],
-        [76, 77, 78, 79, 80],
 ]
 
 dialsset = [
-        ["Enu:[3, 3.5]", "Enu:[3.5, 4]", "Enu:[4, 5]", "Enu:[5, 7]", "Enu:[7, 10]"], # 
-        ["Enu:[0, 0.1]", "Enu:[0.1, 0.2]", "Enu:[0.2, 0.3]", "Enu:[0.3, 0.4]", "Enu:[0.4, 0.5]"], # 
-        ["Enu:[0.5, 0.6]", "Enu:[0.6, 0.7]", "Enu:[0.7, 0.8]", "Enu:[0.8, 0.9]", "Enu:[0.9, 1]"], # 
-        ["Enu:[1, 1.2]", "Enu:[1.2, 1.5]", "Enu:[1.5, 2]", "Enu:[2, 2.5]", "Enu:[2.5, 3]"], # 
-        ["Enu:[3, 3.5]", "Enu:[3.5, 4]", "Enu:[4, 5]", "Enu:[5, 7]", "Enu:[7, 10]"], # 
-        ["Enu:[0, 0.1]", "Enu:[0.1, 0.2]", "Enu:[0.2, 0.3]", "Enu:[0.3, 0.4]", "Enu:[0.4, 0.5]"], # 
-        ["Enu:[0.5, 0.6]", "Enu:[0.6, 0.7]", "Enu:[0.7, 0.8]", "Enu:[0.8, 0.9]", "Enu:[0.9, 1]"], # 
-        ["Enu:[1, 1.2]", "Enu:[1.2, 1.5]", "Enu:[1.5, 2]", "Enu:[2, 2.5]", "Enu:[2.5, 3]"], # 
-        ["Enu:[3, 3.5]", "Enu:[3.5, 4]", "Enu:[4, 5]", "Enu:[5, 7]", "Enu:[7, 10]"], # 
         ["Enu:[0, 0.1]", "Enu:[0.1, 0.2]", "Enu:[0.2, 0.3]", "Enu:[0.3, 0.4]", "Enu:[0.4, 0.5]"], # 
         ["Enu:[0.5, 0.6]", "Enu:[0.6, 0.7]", "Enu:[0.7, 0.8]", "Enu:[0.8, 0.9]", "Enu:[0.9, 1]"], # 
         ["Enu:[1, 1.2]", "Enu:[1.2, 1.5]", "Enu:[1.5, 2]", "Enu:[2, 2.5]", "Enu:[2.5, 3]"], # 
@@ -147,18 +133,10 @@ subsets = [
         "bin 6-10 FHC WAGASCI #nu_{#mu} Low Enu", 
         "bin 11-15 FHC WAGASCI #nu_{#mu} High Enu", 
         "bin 16-20 FHC WAGASCI #nu_{#mu} High Enu", 
-        "bin 21-25 FHC WAGASCI #bar{#nu}_{#mu} Low Enu", 
-        "bin 26-30 FHC WAGASCI #bar{#nu}_{#mu} Low Enu", 
-        "bin 31-35 FHC WAGASCI #bar{#nu}_{#mu} High Enu", 
-        "bin 36-40 FHC WAGASCI #bar{#nu}_{#mu} High Enu", 
-        "bin 41-45  FHC ND280 #nu_{#mu} Low Enu", 
-        "bin 46-50  FHC ND280 #nu_{#mu} Low Enu", 
-        "bin 51-55  FHC ND280 #nu_{#mu} High Enu", 
-        "bin 56-60  FHC ND280 #nu_{#mu} High Enu", 
-        "bin 61-65  FHC ND280 #bar{#nu}_{#mu} Low Enu", 
-        "bin 66-70  FHC ND280 #bar{#nu}_{#mu} Low Enu", 
-        "bin 71-75  FHC ND280 #bar{#nu}_{#mu} High Enu", 
-        "bin 76-80  FHC ND280 #bar{#nu}_{#mu} High Enu", 
+        "bin 21-25  FHC ND280 #nu_{#mu} Low Enu", 
+        "bin 26-30  FHC ND280 #nu_{#mu} Low Enu", 
+        "bin 31-35  FHC ND280 #nu_{#mu} High Enu", 
+        "bin 36-40  FHC ND280 #nu_{#mu} High Enu", 
 ]
 
 pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
@@ -222,8 +200,9 @@ print("Number of dial: "+str(len(idialsset)))
 print("Number of POT sets: "+str(len(pot)))
 
 
+file = TFile("plots/pot_studies/flux/WAGASCI_FGD_onlyFHC/plots.root","RECREATE")
 for i in range(len(subsets)):
     print("Processing subset :"+subsets[i])
-    plot_flux_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd_fhc)
+    plot_flux_errs(file, subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd_fhc)
 
 print("Done")

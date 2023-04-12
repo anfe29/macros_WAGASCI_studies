@@ -31,7 +31,7 @@ def rel_error_evolution(i, idials, pot, fit_paths, xsectype=""):
         j += 1
     return err_evol
 
-def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_fgd_fhc):
+def plot_xsec_errs(file, subsets, dials, idials, pot, fit_paths_fgd_fhc):
     '''plots the relative & absolute xsec errors of all dials, and saves the plots in two canvases'''
     # change this to choose individual colors?
     if (len(idials) <= 4): gStyle.SetPalette(kBlueGreenYellow)
@@ -113,6 +113,9 @@ def plot_xsec_errs(subsets, dials, idials, pot, fit_paths_fgd_fhc):
     c1.Update()     
     #c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_onlyFHC/{}_hesse.png".format(subsets))
     c1.SaveAs("plots/pot_studies/xsec/WAGASCI_FGD_onlyFHC/{}_migrad.png".format(subsets))
+    file.cd()
+    c1.SetName("{}_migrad".format(subsets))
+    c1.Write()
 
 
 idialsset = [
@@ -227,8 +230,10 @@ print("Number of dial: "+str(len(idialsset)))
 print("Number of POT sets: "+str(len(pot)))
 
 
+file = TFile("plots/pot_studies/xsec/WAGASCI_FGD_onlyFHC/plots.root","RECREATE")
 for i in range(len(subsets)):
     print("Processing subset :"+subsets[i])
-    plot_xsec_errs(subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd_fhc)
+    plot_xsec_errs(file, subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd_fhc)
 
+file.Close()
 print("Done")

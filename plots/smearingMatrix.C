@@ -3,6 +3,7 @@ void smearingMatrix()
     // initialize file and tree
     TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event_CCcorrected.root");
     TTree *tree = (TTree*)infile->Get("sample_sum");
+    //TFile *outfile = new TFile("plots/2Dhist/smearing/plots.root","RECREATE");
 
     // set parameters and variables
     const int SAMPLES = 7;
@@ -11,36 +12,36 @@ void smearingMatrix()
     // define binning arrays
     std::vector<std::vector<double>> bincos = {
         //FHC WAGASCI PM-WMRD #nu_{#mu} CC 0#pi 
-        {0, 0.425, 0.525, 0.65, 0.75, 0.9, 1},    
+        {0.3, 0.425, 0.525, 0.65, 0.75, 0.9, 1},    
         //FHC WAGASCI PM-BM #nu_{#mu} CC 0#pi
-        {0, 0.85, 0.9, 0.94, 0.96, 0.98, 1},   
+        {0.3, 0.85, 0.9, 0.94, 0.96, 0.98, 1},   
         //FHC WAGASCI PM #nu_{#mu} CC 1#pi 
-        {0, 0.5, 0.63, 0.72, 0.87, 0.98, 1}, 
+        {0.3, 0.5, 0.63, 0.72, 0.87, 0.98, 1}, 
         //FHC WAGASCI UWG-WMRD #nu_{#mu} CC 0#pi 
-        {0, 0.5, 0.64, 0.7, 0.85, 1},
+        {0.3, 0.5, 0.64, 0.7, 0.85, 1},
         //FHC WAGASCI UWG-BM #nu_{#mu} CC 0#pi     
-        {0, 0.9, 0.94, 0.96, 0.98, 1},            
+        {0.3, 0.9, 0.94, 0.96, 0.98, 1},            
         //FHC WAGASCI DWG-BM #nu_{#mu} CC 0#pi  
-        {0, 0.75, 0.85, 0.9, 0.94, 0.96, 0.98, 1}, 
+        {0.3, 0.75, 0.85, 0.9, 0.94, 0.96, 0.98, 1}, 
         //FHC WAGASCI WG #nu_{#mu} CC 1#pi 
-        {0, 0.67, 0.77, 0.84, 0.9, 0.95, 0.98, 1} 
+        {0.3, 0.67, 0.77, 0.84, 0.9, 0.95, 0.98, 1} 
     };
 
     std::vector<std::vector<double>> binpmu = {
         //FHC WAGASCI PM-WMRD #nu_{#mu} CC 0#pi 
-        {0, 450, 500, 550, 600, 650, 30000},
+        {0, 450, 500, 550, 600, 650, 1500},
         //FHC WAGASCI PM-BM #nu_{#mu} CC 0#pi
-        {0, 600, 650, 700, 800, 900, 30000},
+        {0, 600, 650, 700, 800, 900, 1500},
         //FHC WAGASCI PM #nu_{#mu} CC 1#pi 
-        {0, 400, 500, 550, 600, 650, 30000},
+        {0, 400, 500, 550, 600, 650, 1500},
         //FHC WAGASCI UWG-WMRD #nu_{#mu} CC 0#pi 
-        {0, 400, 450, 500, 550, 600, 650, 700, 30000},
+        {0, 400, 450, 500, 550, 600, 650, 700, 1500},
         //FHC WAGASCI UWG-BM #nu_{#mu} CC 0#pi
-        {0, 600, 650, 700, 750, 800, 900, 1100, 30000},
+        {0, 600, 650, 700, 750, 800, 900, 1100, 1500},
         //FHC WAGASCI DWG-BM #nu_{#mu} CC 0#pi 
-        {0, 400, 450, 500, 550, 600, 650, 700, 800, 900, 1100, 1400, 30000},
+        {0, 400, 450, 500, 550, 600, 650, 700, 800, 900, 1100, 1400, 1500},
         //FHC WAGASCI WG #nu_{#mu} CC 1#pi
-        {0, 400, 500, 550, 600, 650, 700, 750, 800, 900, 1100, 30000},
+        {0, 400, 500, 550, 600, 650, 700, 750, 800, 900, 1100, 1500},
     };
     int nevent = tree->GetEntries();
 
@@ -68,11 +69,21 @@ void smearingMatrix()
     };
 
     // create histos
+    std::vector<TH1D*> h1tru;
+    std::vector<TH1D*> h1;
+    std::vector<TH1D*> h2tru;
+    std::vector<TH1D*> h2;
     std::vector<TH2D*> hpmu;
     std::vector<TH2D*> hpmubin;
     std::vector<TH2D*> hcs;
     std::vector<TH2D*> hcsbin;
+
+    // initialize histos
     for(int isample = 0; isample < SAMPLES; isample++){
+        h1true.push_back(new TH1D("","",100,0,));
+        h1.push_back();
+        h2true.push_back();
+        h2.push_back();
         hpmu.push_back(new TH2D("", nhist[isample].c_str(), 100, 0, 1500, 100, 0, 1500));
         hcs.push_back(new TH2D("", nhist[isample].c_str(), 100, 0, 1, 100, 0, 1));
         hpmubin.push_back(new TH2D("", nhist[isample].c_str(), binpmu[isample].size()-1, &binpmu[isample][0], binpmu[isample].size()-1, &binpmu[isample][0]));
@@ -90,6 +101,7 @@ void smearingMatrix()
     for(int ientry = 0; ientry < nevent; ientry++) {
         tree->GetEntry(ientry);
 
+        // identify sample
         int isample = 0; 
         for(int n = 0; n < SAMPLES; n++) {
             if ( sample == nsamp[n] ) {
@@ -97,9 +109,18 @@ void smearingMatrix()
                 break;
             }
         }
+        // output
         std::cout << "Sample: " << sample <<  "\tPmu Reco: " << pmu << "\tPmu True: " << trupmu 
         << "\tCosThetamu Reco: " << cs << "\tCosThetamu True: " << trucs << "\tPOTWeight: " << peso << std::endl;
         
+        // to work around the prob of large bins, put all large/small values in one bin
+        if(pmu > 1500) pmu = 1499;
+        if(trupmu > 1500) trupmu = 1499;
+        if(cs < 0.3) cs = 0.31;
+        if(trucs < 0.3) trucs = 0.31;
+
+
+        // fill histos
         hpmu[isample]->Fill(trupmu, pmu, peso);
         hcs[isample]->Fill(trucs, cs, peso);
         hpmubin[isample]->Fill(trupmu, pmu, peso);
@@ -110,23 +131,39 @@ void smearingMatrix()
     TCanvas *c1 = new TCanvas();
     TCanvas *c2 = new TCanvas();
     std::string path;
-    c2->SetLogx();
-    c2->SetLogy();
+    //c2->SetLogx();
+    //c2->SetLogy();
     gStyle->SetOptStat(0);
+    //outfile->cd();
     for(int isample = 0; isample < SAMPLES; isample++){
         c1->cd();
+        hpmu[isample]->GetXaxis()->SetRangeUser(0,1500);
+        hpmu[isample]->GetYaxis()->SetRangeUser(0,1500);
         hpmu[isample]->Draw("COLZ");
         path = "plots/2Dhist/smearing/plotpmu_"+nhist[isample]+".png";
         c1->SaveAs(path.c_str());
+        //c1->Write();
+        hcs[isample]->GetXaxis()->SetRangeUser(0.3,1);
+        hcs[isample]->GetYaxis()->SetRangeUser(0.3,1);
         hcs[isample]->Draw("COLZ");
         path = "plots/2Dhist/smearing/plotcos_"+nhist[isample]+".png";
         c1->SaveAs(path.c_str());
+        //c1->Write();
         c2->cd();
+        hpmubin[isample]->GetXaxis()->SetRangeUser(0,1500);
+        hpmubin[isample]->GetYaxis()->SetRangeUser(0,1500);
         hpmubin[isample]->Draw("COLZ");
         path = "plots/2Dhist/smearing/plotpmubin_"+nhist[isample]+".png";
+        c1->SaveAs(path.c_str());
+        //c1->Write();
         c2->SaveAs(path.c_str());
+        hcsbin[isample]->GetXaxis()->SetRangeUser(0.3,1);
+        hcsbin[isample]->GetYaxis()->SetRangeUser(0.3,1);
         hcsbin[isample]->Draw("COLZ");
         path = "plots/2Dhist/smearing/plotcsbin_"+nhist[isample]+".png";
+        c1->SaveAs(path.c_str());
+        //c1->Write();
         c2->SaveAs(path.c_str());
     }
+    //outfile->Close();
 }

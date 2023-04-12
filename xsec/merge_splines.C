@@ -83,6 +83,7 @@ void write_binning(std::string param)
 void combineSplines()
 {
 	f_output = new TFile("xsec_sampKenj/inputs/splines/pmu_splines.root","RECREATE");
+	//f_output = new TFile("xsec_sampKenj/inputs/splines/pmu_splines_graphs.root","RECREATE");
 
 	// read spline file, put graphs in object array and write them into new root file
 	for(int i = 0; i < name_spline.size(); i++) {
