@@ -8,9 +8,10 @@ std::vector<std::string> name_spline = {"MAQE","Q2_norm_5","Q2_norm_6","Q2_norm_
 std::vector<int> sampl;
 std::vector<int> target;
 std::vector<int> reaction;
+std::vector<int> bin;
 std::vector<double> cs = {0.34, 1.0};
 std::vector<double> pmu = {300., 500., 700., 900., 1100., 1500., 5000.};
-std::vector<std::string> word_array = {"sam","tar","reac"};
+std::vector<std::string> word_array = {"sam","tar","reac","bin"};
 std::string dir_pmu = "CC0pi_fitting_materials/pmu/splines/";
 TFile *f_output = NULL;
 TObjArray *grapharray = NULL;
@@ -29,6 +30,7 @@ void fillStringArray(std::string n_spline)
         sampl.push_back(num[0]);
         target.push_back(num[1]);
         reaction.push_back(num[2]);
+        bin.push_back(num[3]);
         //std::cout << "Checking string vector contents " << sampl.back() << " " << target.back() << " " << reaction.back() << "\n";
 
 }
@@ -61,22 +63,14 @@ void write_binning(std::string param)
 	
 	std::cout << "Creating binning file " << "\n\n";
 	file << "variables: cut_branch target reaction D2True D2True D1True D1True \n";
-	int j = 0;
 	for(int i = 0; i < sampl.size(); i++){
-		file << sampl[i] << " " << target[i] << " " << reaction[i] << " ";
-		if(j < (pmu.size() - 1)) {
-			file << cs[0] << " " << cs[1] << " " << pmu[j] << " " << pmu[j+1] << "\n"; 
-		}
-		else {
-			j = 0;
-			file << cs[0] << " " << cs[1] << " " << pmu[j] << " " << pmu[j+1] << "\n"; 
-		}
-		j++;
+		file << sampl[i] << " " << target[i] << " " << reaction[i] << " " << cs[0] << " " << cs[1] << " " << pmu[bin[i]] << " " << pmu[bin[i]+1] << "\n"; 
 	}
 	
 	sampl.clear();
 	target.clear();
 	reaction.clear();
+    bin.clear();
 	file.close();
 }
 
