@@ -98,7 +98,7 @@ def plot_flux_errs(file, subsets, dials, idials, pot, fit_paths_fgd_fhc):
 
     c1.Update()     
     #c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD_onlyFHC/{}_hesse.png".format(subsets))
-    c1.SaveAs("plots/pot_studies/flux/WAGASCI_FGD_onlyFHC/{}_migrad.png".format(subsets))
+    c1.SaveAs("plots/pot_studies/flux/onlyFHC_withSK/{}_migrad.png".format(subsets))
     file.cd()
     c1.SetName("{}_migrad".format(subsets))
     c1.Write()
@@ -114,9 +114,17 @@ idialsset = [
         [26, 27, 28, 29, 30],
         [31, 32, 33, 34, 35],
         [36, 37, 38, 39, 40],  
+        [41, 42, 43, 44, 45],
+        [46, 47, 48, 49, 50],
+        [51, 52, 53, 54, 55],
+        [56, 57, 58, 59, 60],  
 ]
 
 dialsset = [
+        ["Enu:[0, 0.1]", "Enu:[0.1, 0.2]", "Enu:[0.2, 0.3]", "Enu:[0.3, 0.4]", "Enu:[0.4, 0.5]"], # 
+        ["Enu:[0.5, 0.6]", "Enu:[0.6, 0.7]", "Enu:[0.7, 0.8]", "Enu:[0.8, 0.9]", "Enu:[0.9, 1]"], # 
+        ["Enu:[1, 1.2]", "Enu:[1.2, 1.5]", "Enu:[1.5, 2]", "Enu:[2, 2.5]", "Enu:[2.5, 3]"], # 
+        ["Enu:[3, 3.5]", "Enu:[3.5, 4]", "Enu:[4, 5]", "Enu:[5, 7]", "Enu:[7, 10]"], # 
         ["Enu:[0, 0.1]", "Enu:[0.1, 0.2]", "Enu:[0.2, 0.3]", "Enu:[0.3, 0.4]", "Enu:[0.4, 0.5]"], # 
         ["Enu:[0.5, 0.6]", "Enu:[0.6, 0.7]", "Enu:[0.7, 0.8]", "Enu:[0.8, 0.9]", "Enu:[0.9, 1]"], # 
         ["Enu:[1, 1.2]", "Enu:[1.2, 1.5]", "Enu:[1.5, 2]", "Enu:[2, 2.5]", "Enu:[2.5, 3]"], # 
@@ -137,20 +145,24 @@ subsets = [
         "bin 26-30  FHC ND280 #nu_{#mu} Low Enu", 
         "bin 31-35  FHC ND280 #nu_{#mu} High Enu", 
         "bin 36-40  FHC ND280 #nu_{#mu} High Enu", 
+        "bin 41-45  FHC SK #nu_{#mu} Low Enu", 
+        "bin 46-50  FHC SK #nu_{#mu} Low Enu", 
+        "bin 51-55  FHC SK #nu_{#mu} High Enu", 
+        "bin 56-60  FHC SK #nu_{#mu} High Enu", 
 ]
 
 pot = [0.33, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3]
 #pot = [0.33, 1.3, 2.3, 3.3]
 
 fit_paths_fgd_fhc = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_onlyFHC/pot7.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_onlyFHC/pot7.3.root",
 ]
 
 #fit_paths_fgd_wagasci_fhc  = [
@@ -165,25 +177,25 @@ fit_paths_fgd_fhc = [
 #]
 
 fit_paths_sfgd_fhc  = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/FGD_SFGD_onlyFHC/pot7.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/FGD_SFGD_onlyFHC/pot7.3.root",
 ]
 
 fit_paths_sfgd_wagasci_fhc  = [
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot0.33.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot1.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot2.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot3.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot4.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot5.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot6.3.root",
-    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/WAGASCI_FGD_SFGD_onlyFHC/pot7.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot0.33.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot1.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot2.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot3.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot4.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot5.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot6.3.root",
+    "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/SK_flux/WAGASCI_FGD_SFGD_onlyFHC/pot7.3.root",
 ]
 
 # the python macro assumes that 2022-2027 fits are in 'fit_path' and named: 0703_banffsfgd****_datacorrect_2M.root
@@ -200,7 +212,7 @@ print("Number of dial: "+str(len(idialsset)))
 print("Number of POT sets: "+str(len(pot)))
 
 
-file = TFile("plots/pot_studies/flux/WAGASCI_FGD_onlyFHC/plots.root","RECREATE")
+file = TFile("plots/pot_studies/flux/onlyFHC_withSK/plots.root","RECREATE")
 for i in range(len(subsets)):
     print("Processing subset :"+subsets[i])
     plot_flux_errs(file, subsets[i], dialsset[i], idialsset[i], pot, fit_paths_fgd_fhc)

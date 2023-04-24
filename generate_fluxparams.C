@@ -10,6 +10,7 @@ void generate_fluxparams()
     TMatrixTSym<double> covOut3(160); 
     TMatrixTSym<double> covOut4(40); 
     TMatrixTSym<double> covOut5(40); 
+    TMatrixTSym<double> covOut6(60); 
 
     int n = -1;
     int m = -1;
@@ -98,17 +99,17 @@ void generate_fluxparams()
     n = -1;
     m = -1;
     for(int i = 0; i < covIn->GetNcols(); i++) {
-        if(i < 80 || (i > 99 && i < 120) || i > 139) continue;
+        if(i < 80 || (i > 99 && i < 160) || i > 179) continue;
         else {
             n = -1;
             m++;
             n++;
             for(int j = 0; j < covIn->GetNcols(); j++) {
-                if(j < 80 || (j > 99 && j < 120) || j > 139) continue;
+                if(j < 80 || (j > 99 && j < 160) || j > 179) continue;
                 else {
                     covOut5[n][m] = (*covIn)[i][j];
-                    std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
-                    std::cout << "New : [" << n << ", " << m << "] : " << covOut5[n][m] << "\n\n";
+                    //std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
+                    //std::cout << "New : [" << n << ", " << m << "] : " << covOut5[n][m] << "\n\n";
                     n++;
                 }
             }
@@ -116,12 +117,35 @@ void generate_fluxparams()
     }
     //covOut5.Print();
     
+    n = -1;
+    m = -1;
+    for(int i = 0; i < covIn->GetNcols(); i++) {
+        if(i < 80 || (i > 99 && i < 160) || (i > 179 && i < 240) || i > 259) continue;
+        else {
+            n = -1;
+            m++;
+            n++;
+            for(int j = 0; j < covIn->GetNcols(); j++) {
+                if(j < 80 || (j > 99 && j < 160) || (j > 179 && j < 240) || j > 259) continue;
+                else {
+                    covOut6[n][m] = (*covIn)[i][j];
+                    std::cout << "Old : [" << i << ", " << j << "] : " << (*covIn)[i][j] << "\n";
+                    std::cout << "New : [" << n << ", " << m << "] : " << covOut6[n][m] << "\n\n";
+                    n++;
+                }
+            }
+        }
+    }
+    //covOut6.Print();
+    
     output->cd();
+    // everything is without INGRID
     covOut1.Write("total_flux_cov");
     covOut2.Write("partial_flux_cov_NoWGRHC");
     covOut3.Write("partial_flux_cov_NoWG");
-    covOut4.Write("partial_flux_cov_OnlyWG");
+    covOut4.Write("partial_flux_cov_OnlyWGFHC");
     covOut5.Write("partial_flux_cov_OnlyFHC");
+    covOut6.Write("partial_flux_cov_withSK_OnlyFHC");
     output->Close();
 
     // Generate flux binning per cov matrix
@@ -132,14 +156,16 @@ void generate_fluxparams()
     std::vector<int> isRHC3 = {0, 1, -2, -2};
     std::vector<int> isRHC4 = {-1};
     std::vector<int> isRHC5 = {-1, 0};
+    std::vector<int> isRHC6 = {-1, 0, -2};
 
-	ofstream file1, file2, file3, file4, file5;
+	ofstream file1, file2, file3, file4, file5, file6;
 	//file.open("studies_sampKenj/inputs/samples/binning/simple_binning.txt");
 	file1.open("studies_sampKenj/inputs/parameters/flux/jointflux_binning.txt");
 	file2.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningNoWGRHC.txt");
 	file3.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningNoWG.txt");
-	file4.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningOnlyWG.txt");
+	file4.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningOnlyWGFHC.txt");
 	file5.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningOnlyFHC.txt");
+	file6.open("studies_sampKenj/inputs/parameters/flux/jointflux_binningwithSKOnlyFHC.txt");
 	
     //std::cout << "variables: SelectedSample NeutrinoCode isRHC Enu Enu\n";
     file1 << "variables: isRHC NeutrinoCode Enu Enu\n";
@@ -147,6 +173,7 @@ void generate_fluxparams()
     file3 << "variables: isRHC NeutrinoCode Enu Enu\n";
     file4 << "variables: isRHC NeutrinoCode Enu Enu\n";
     file5 << "variables: isRHC NeutrinoCode Enu Enu\n";
+    file6 << "variables: isRHC NeutrinoCode Enu Enu\n";
 
 	for(int i = 0; i < isRHC1.size(); i++) {
 		for(int j = 0; j < NeutrinoCode.size(); j++) {
@@ -197,10 +224,19 @@ void generate_fluxparams()
         }
     }
 
+    for(int i = 0; i < isRHC6.size(); i++) {
+        for(int k = 0; k < (enu.size() - 1); k++) {
+            //file << bins1[i] << " " << bins1[i+1] << "\n"; 
+            //std::cout << SelectedSample[i] << " " << NeutrinoCode[j] << " " << isRHC[k] << " " << enu[l] << " " << enu[l+1] << "\n"; 
+            file6 << isRHC6[i] << " " << NeutrinoCode[0] << " " << enu[k] << " " << enu[k+1] << "\n"; 
+        }
+    }
+
 	file1.close();
 	file2.close();
 	file3.close();
 	file4.close();
 	file5.close();
+	file6.close();
 }
 

@@ -36,9 +36,9 @@ void smearingMatrix()
         //FHC WAGASCI PM #nu_{#mu} CC 1#pi 
         {200, 400, 500, 550, 600, 650, 2000},
         //FHC WAGASCI UWG-WMRD #nu_{#mu} CC 0#pi 
-        {200, 400, 450, 500, 550, 600, 650, 700, 1000},
+        {200, 450, 500, 550, 600, 650, 700, 1000},
         //FHC WAGASCI UWG-BM #nu_{#mu} CC 0#pi
-        {200, 600, 650, 700, 750, 800, 900, 1100, 2000},
+        {200, 650, 700, 750, 800, 900, 1100, 2000},
         //FHC WAGASCI DWG-BM #nu_{#mu} CC 0#pi 
         {200, 400, 450, 500, 550, 600, 650, 700, 800, 900, 1100, 1400, 2000},
         //FHC WAGASCI WG #nu_{#mu} CC 1#pi
@@ -192,20 +192,20 @@ void smearingMatrix()
         // draw and save plots
         c1->cd();
         hpmu[isample]->Draw("COLZ");
-        nfile = path+"plotpmu_"+nhist[isample]+".png";
+        nfile = path+"unbinned/pmu/plotpmu_"+nhist[isample]+".png";
         c1->SaveAs(nfile.c_str());
         c1->Write();
         hcs[isample]->Draw("COLZ");
-        nfile = path+"plotcos_"+nhist[isample]+".png";
+        nfile = path+"unbinned/cos/plotcos_"+nhist[isample]+".png";
         c1->SaveAs(nfile.c_str());
         c1->Write();
         //c2->cd();
         hpmubin[isample]->Draw("COLZ");
-        nfile = path+"plotpmubin_"+nhist[isample]+".png";
+        nfile = path+"binned/pmu/plotpmubin_"+nhist[isample]+".png";
         c1->SaveAs(nfile.c_str());
         c1->Write();
         hcsbin[isample]->Draw("COLZ");
-        nfile = path+"plotcsbin_"+nhist[isample]+".png";
+        nfile = path+"binned/cos/plotcsbin_"+nhist[isample]+".png";
         c1->SaveAs(nfile.c_str());
         c1->Write();
     }
