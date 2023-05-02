@@ -1,11 +1,6 @@
-// macro for showing binning, bin content and bin resolution for binning analysis and refinement
-void binningAnal_ND280()
+void smearingMatrix_ND280()
 {
     // initialize file and tree
-    //TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/splines_event_by_event_CCcorrected.root");
-    //TFile *infile = new TFile("studies_sampKenj/inputs/samples/sample_rootfiles/wagasci_sample_kenji.root");
-    //TTree *tree = (TTree*)infile->Get("sample_sum");
-    //TTree *tree = (TTree*)infile->Get("selectedEvents");
 
     TChain *tree = new TChain("sample_sum");
     tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run2aMCsplines_ForSFGD.root");
@@ -21,67 +16,13 @@ void binningAnal_ND280()
     tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/run9MCsplines_ForSFGD.root");
     tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/SFGD_BANFFFormat_anu_500k_NaturalUnits_goodq3units_flatsplines_fixRS_wCoulombCorrection.root");
     tree->Add("studies_sampKenj/inputs/samples/sample_rootfiles/SFGD_BANFFFormat_nu_2M_NaturalUnits_goodq3units_flatsplines_fixRS_wCoulombCorrection.root");
+    TFile *outfile = new TFile("plots/2Dhist/smearing_ND280/plots.root","RECREATE");
 
-    // set parameters from tree
+    // set parameters and variables
     const int SAMPLES = 30;
     double pmu, trupmu, cs, trucs, peso;
     int sample;
-    int nevent = tree->GetEntries();
-
-    // set branches
-    tree->SetBranchAddress("Pmu", &pmu);
-    tree->SetBranchAddress("CosThetamu", &cs);
-    tree->SetBranchAddress("TruePmu", &trupmu);
-    tree->SetBranchAddress("TrueCosThetamu", &trucs);
-    tree->SetBranchAddress("POTWeight", &peso);
-    tree->SetBranchAddress("SelectedSample", &sample);
-
-    // define sample names
-    std::string nhist[SAMPLES] = {
-        "FHC FGD1 #nu_{#mu} CC 0#pi 0p 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC 0#pi Np 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC 1#pi 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC Other 0#gamma",
-        "FHC FGD1 #nu_{#mu} CC #gamma",
-        "FHC FGD2 #nu_{#mu} CC 0#pi 0p 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC 0#pi Np 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC 1#pi 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC Other 0#gamma",
-        "FHC FGD2 #nu_{#mu} CC #gamma",
-        "RHC FGD1 Anti #nu_{#mu} CC 0#pi",
-        "RHC FGD1 Anti #nu_{#mu} CC 1#pi",
-        "RHC FGD1 Anti #nu_{#mu} CC Other",
-        "RHC FGD2 Anti #nu_{#mu} CC 0#pi",
-        "RHC FGD2 Anti #nu_{#mu} CC 1#pi",
-        "RHC FGD2 Anti #nu_{#mu} CC Other",
-        "RHC FGD1 #nu_{#mu} (background) CC 0#pi in AntiNu_Mode",
-        "RHC FGD1 #nu_{#mu} (background) CC 1#pi in AntiNu_Mode",
-        "RHC FGD1 #nu_{#mu} (background) CC Other in AntiNu_Mode",
-        "RHC FGD2 #nu_{#mu} (background) CC 0#pi in AntiNu_Mode",
-        "RHC FGD2 #nu_{#mu} (background) CC 1#pi  in AntiNu_Mode",
-        "RHC FGD2 #nu_{#mu} (background) CC Other  in AntiNu_Mode",
-        "FHC SFGD #nu_{#mu} CC 0#pi 0p",
-        "FHC SFGD #nu_{#mu} CC 0#pi Np",
-        "FHC SFGD #nu_{#mu} CC 1#pi 0p",
-        "FHC SFGD #nu_{#mu} CC 1#pi Np",
-        "RHC SFGD #bar{#nu}_{#mu} CC 0#pi 0n",
-        "RHC SFGD #bar{#nu}_{#mu} CC 0#pi Nn",
-        "RHC SFGD #bar{#nu}_{#mu} CC 1#pi 0n"
-        "RHC SFGD #bar{#nu}_{#mu} CC 1#pi Nn"
-    };
-
-    // define SelectedSample array
-    int nsamp[SAMPLES] = {
-        // FHC FGD
-        7, 8, 10, 12, 13, 31, 32, 34, 36, 37, 
-        // RHC FGD
-        59, 60, 61, 65, 66, 67, 71, 72, 73, 77, 78, 79, 
-        // FHC SFGD
-        101, 102, 103, 104,
-        // RHC SFGD
-        111, 112, 113, 114
-    };
-
+    int nbin = 100;
     // define binning arrays
     std::vector<std::vector<double>> bincos = {
         //FHC FGD1 #nu_{#mu} CC 0#pi 0p 0#gamma
@@ -208,37 +149,86 @@ void binningAnal_ND280()
         //RHC SFGD #bar{#nu}_{#mu} CC 1#pi Nn
         {0, 500, 700, 900, 1300, 2500, 30000}
     };
+    int nevent = tree->GetEntries();
 
-    // create histos for binning
-    std::vector<TH1D*> hpmu;
-    std::vector<TH1D*> hcs;
-    std::vector<std::vector<TH1D*>> hpmu_res(SAMPLES);
-    std::vector<std::vector<TH1D*>> hcs_res(SAMPLES);
-     
-    // create histo instances
-    std::cout << "Initializing histograms\n";
-    for(int isample = 0; isample < SAMPLES; isample++) {
+    // set branches
+    tree->SetBranchAddress("Pmu", &pmu);
+    tree->SetBranchAddress("TruePmu", &trupmu);
+    tree->SetBranchAddress("CosThetamu", &cs);
+    tree->SetBranchAddress("TrueCosThetamu", &trucs);
+    tree->SetBranchAddress("POTWeight", &peso);
+    tree->SetBranchAddress("SelectedSample", &sample);
+    
+    int nsamp[SAMPLES] = {
+        // FHC FGD
+        7, 8, 10, 12, 13, 31, 32, 34, 36, 37, 
+        // RHC FGD
+        59, 60, 61, 65, 66, 67, 71, 72, 73, 77, 78, 79, 
+        // FHC SFGD
+        101, 102, 103, 104,
+        // RHC SFGD
+        111, 112, 113, 114
+    };
 
-        // initialize histogram for costhetamu and pmu
-        hpmu.push_back(new TH1D("", "", binpmu[isample].size()-1, &binpmu[isample][0]));
-        hcs.push_back(new TH1D("", "", bincos[isample].size()-1, &bincos[isample][0]));
+    std::string nhist[SAMPLES] = {
+        "FHC FGD1 #nu_{#mu} CC 0#pi 0p 0#gamma",
+        "FHC FGD1 #nu_{#mu} CC 0#pi Np 0#gamma",
+        "FHC FGD1 #nu_{#mu} CC 1#pi 0#gamma",
+        "FHC FGD1 #nu_{#mu} CC Other 0#gamma",
+        "FHC FGD1 #nu_{#mu} CC #gamma",
+        "FHC FGD2 #nu_{#mu} CC 0#pi 0p 0#gamma",
+        "FHC FGD2 #nu_{#mu} CC 0#pi Np 0#gamma",
+        "FHC FGD2 #nu_{#mu} CC 1#pi 0#gamma",
+        "FHC FGD2 #nu_{#mu} CC Other 0#gamma",
+        "FHC FGD2 #nu_{#mu} CC #gamma",
+        "RHC FGD1 Anti #nu_{#mu} CC 0#pi",
+        "RHC FGD1 Anti #nu_{#mu} CC 1#pi",
+        "RHC FGD1 Anti #nu_{#mu} CC Other",
+        "RHC FGD2 Anti #nu_{#mu} CC 0#pi",
+        "RHC FGD2 Anti #nu_{#mu} CC 1#pi",
+        "RHC FGD2 Anti #nu_{#mu} CC Other",
+        "RHC FGD1 #nu_{#mu} (background) CC 0#pi in AntiNu_Mode",
+        "RHC FGD1 #nu_{#mu} (background) CC 1#pi in AntiNu_Mode",
+        "RHC FGD1 #nu_{#mu} (background) CC Other in AntiNu_Mode",
+        "RHC FGD2 #nu_{#mu} (background) CC 0#pi in AntiNu_Mode",
+        "RHC FGD2 #nu_{#mu} (background) CC 1#pi  in AntiNu_Mode",
+        "RHC FGD2 #nu_{#mu} (background) CC Other  in AntiNu_Mode",
+        "FHC SFGD #nu_{#mu} CC 0#pi 0p",
+        "FHC SFGD #nu_{#mu} CC 0#pi Np",
+        "FHC SFGD #nu_{#mu} CC 1#pi 0p",
+        "FHC SFGD #nu_{#mu} CC 1#pi Np",
+        "RHC SFGD #bar{#nu}_{#mu} CC 0#pi 0n",
+        "RHC SFGD #bar{#nu}_{#mu} CC 0#pi Nn",
+        "RHC SFGD #bar{#nu}_{#mu} CC 1#pi 0n"
+        "RHC SFGD #bar{#nu}_{#mu} CC 1#pi Nn"
+    };
 
-        for(int i = 0; i < binpmu[isample].size()-1; i++) {
-            hpmu_res[isample].push_back(new TH1D("", "", 100 , -1, 1));
-        }
-        for(int j = 0; j < bincos[isample].size()-1; j++) {
-            hcs_res[isample].push_back(new TH1D("", "", 100 , -1, 1));
-        }
+    // create histos
+    std::vector<TH2D*> hpmu;
+    std::vector<TH2D*> hpmubin;
+    std::vector<TH2D*> hcs;
+    std::vector<TH2D*> hcsbin;
+
+    // initialize histos
+    for(int isample = 0; isample < SAMPLES; isample++){
+        hpmu.push_back(new TH2D("", nhist[isample].c_str(), nbin, 0, 3000, nbin, 0, 3000));
+        hcs.push_back(new TH2D("", nhist[isample].c_str(), nbin, 0.3, 1, nbin, 0.3, 1));
+        hpmubin.push_back(new TH2D("", nhist[isample].c_str(), binpmu[isample].size()-1, &binpmu[isample][0], binpmu[isample].size()-1, &binpmu[isample][0]));
+        hcsbin.push_back(new TH2D("", nhist[isample].c_str(), bincos[isample].size()-1, &bincos[isample][0], bincos[isample].size()-1, &bincos[isample][0]));
+        hpmu[isample]->SetXTitle("P_{#mu} True");
+        hpmu[isample]->SetYTitle("P_{#mu} Reco");
+        hcs[isample]->SetXTitle("cos #theta_{#mu} True");
+        hcs[isample]->SetYTitle("cos #theta_{#mu} Reco");
+        hpmubin[isample]->SetXTitle("P_{#mu} True");
+        hpmubin[isample]->SetYTitle("P_{#mu} Reco");
+        hcsbin[isample]->SetXTitle("cos #theta_{#mu} True");
+        hcsbin[isample]->SetYTitle("cos #theta_{#mu} Reco");
     }
-
-        // loop over events
-    std::cout << "Looping over events\n";
+    
     for(int ientry = 0; ientry < nevent; ientry++) {
         tree->GetEntry(ientry);
 
-        // cut large values of weight
-        //if(peso > 10) peso = 1;
-        //std::cout << ientry << "\n";
+        // identify sample
         int isample = 0; 
         for(int n = 0; n < SAMPLES; n++) {
             if ( sample == nsamp[n] ) {
@@ -246,128 +236,112 @@ void binningAnal_ND280()
                 break;
             }
         }
+        // output
+        std::cout << "Sample: " << sample <<  "\tPmu Reco: " << pmu << "\tPmu True: " << trupmu 
+        << "\tCosThetamu Reco: " << cs << "\tCosThetamu True: " << trucs << "\tPOTWeight: " << peso << std::endl;
+        
+        // to work around the prob of large bins, put all large/small values in one bin
+        //if(pmu > 1500) pmu = 1499;
+        //if(trupmu > 1500) trupmu = 1499;
+        //if(cs < 0.3) cs = 0.31;
+        //if(trucs < 0.3) trucs = 0.31;
 
-        std::cout << "Sample: " << sample <<  "\tPmu: " << pmu << "\tCosThetamu: " << cs << "\tPOTWeight: " << peso << std::endl;
-        //std::cout << isample << "\n";
-        hpmu[isample]->Fill(pmu,peso);
-        hcs[isample]->Fill(cs,peso);
-        // fill resolution hist and pmu hist using bin edges
-        for(int i = 0; i < binpmu[isample].size()-1; i++) {
-            //std::cout << i << "\n";
-            if(pmu >= hpmu[isample]->GetXaxis()->GetBinLowEdge(i+1) && pmu < hpmu[isample]->GetXaxis()->GetBinUpEdge(i+1)) {
-                //std::cout << "Filling bin : [" << hpmu[isample][i]->GetXaxis()->GetBinLowEdge(j+1) << ", " << hpmu[isample][i]->GetXaxis()->GetBinUpEdge(j+1) << "] : " << pmu << "\n";
-                hpmu_res[isample][i]->Fill((pmu-trupmu)/trupmu,peso);
+
+        // fill histos
+        hpmu[isample]->Fill(trupmu, pmu, peso);
+        hcs[isample]->Fill(trucs, cs, peso);
+        hpmubin[isample]->Fill(trupmu, pmu, peso);
+        hcsbin[isample]->Fill(trucs, cs, peso);
+        //hpmu[isample]->Fill(trupmu, pmu);
+        //hcs[isample]->Fill(trucs, cs);
+        //hpmubin[isample]->Fill(trupmu, pmu);
+        //hcsbin[isample]->Fill(trucs, cs);
+
+    }
+
+    TCanvas *c1 = new TCanvas();
+    std::string path = "plots/2Dhist/smearing_ND280/";
+    //std::string path = "plots/2Dhist/smearing_without_weight/";
+    std::string nfile;
+    gStyle->SetOptStat(0);
+    outfile->cd();
+    for(int isample = 0; isample < SAMPLES; isample++){
+    // rescale bins using truth parameters, divide by bin content per column
+        double trubin = 0;
+        // for finely binned matrices
+        for(int i = 0; i<nbin; i++) {
+            for(int j = 0; j<nbin; j++) {
+                trubin = hpmu[isample]->Integral(i+1,i+1,1,nbin);
+                if(hpmu[isample]->GetBinContent(i+1,j+1) == 0) {
+                    hpmu[isample]->SetBinContent(i+1,j+1,0);
+                }
+                else {
+                    hpmu[isample]->SetBinContent(i+1,j+1,hpmu[isample]->GetBinContent(i+1,j+1)/trubin);
+                }
+                trubin = hcs[isample]->Integral(i+1,i+1,1,nbin);
+                if(hcs[isample]->GetBinContent(i+1,j+1) == 0) {
+                    hcs[isample]->SetBinContent(i+1,j+1,0);
+                }
+                else {
+                    hcs[isample]->SetBinContent(i+1,j+1,hcs[isample]->GetBinContent(i+1,j+1)/trubin);
+                }
             }
         }
-        for(int i = 0; i < bincos[isample].size()-1; i++) {
-            //std::cout << j << "\n";
-            if(cs >= hcs[isample]->GetXaxis()->GetBinLowEdge(i+1) && cs < hcs[isample]->GetXaxis()->GetBinUpEdge(i+1)) {
-                //std::cout << "Filling bin : [" << hcs[isample]->GetXaxis()->GetBinLowEdge(i+1) << ", " << hcs[isample]->GetXaxis()->GetBinUpEdge(i+1) << "] : " << pmu << "\n";
-                hcs_res[isample][i]->Fill((cs-trucs)/trucs,peso);
+        // for matrices using my binning
+        // pmu matrices
+        //std::cout << "Pmu: Sample: " << nhist[isample] << "\n";
+        for(int i = 0; i<binpmu[isample].size()-1; i++) {
+            trubin = hpmubin[isample]->Integral(i+1,i+1,1,binpmu[isample].size()-1);
+            for(int j = 0; j<binpmu[isample].size()-1; j++) {
+                if(hpmubin[isample]->GetBinContent(i+1,j+1) == 0) {
+                    hpmubin[isample]->SetBinContent(i+1,j+1,0);
+                }
+                else {
+                    hpmubin[isample]->SetBinContent(i+1,j+1,hpmubin[isample]->GetBinContent(i+1,j+1)/trubin);
+                    //std::cout << "xbin: " << i+1 << " " << "ybin: " << j+1 << "\n";
+                    //std::cout << "True bin content: " << trubin << "\n";
+                    //std::cout << "Old bin content: " << hpmubin[isample]->GetBinContent(i+1,j+1) << "\n";
+                    //std::cout << "New bin content: " << hpmubin[isample]->GetBinContent(i+1,j+1)/trubin << "\n\n";
+                }
             }
         }
-    }
- 
-    // output and saving hist
-    // use to turn off display when drawing hist
-    // use to shut ROOT the f***k up
-    gROOT->SetBatch(kTRUE);
-    gErrorIgnoreLevel = kError;
-
-    std::string tmp;
-    for(int isample = 0; isample < SAMPLES; isample++) {
-
-        tmp = "plots/binningAnalysis/analysisplots_samp"+to_string(nsamp[isample])+".root";
-        TFile *outfile = new TFile(tmp.c_str(),"RECREATE");
-        TDirectory *dir1 = outfile->mkdir("samp_hist");
-        TDirectory *dir2 = outfile->mkdir("res_hist");
-        TDirectory *suba = dir1->mkdir("cos");
-        TDirectory *subb = dir1->mkdir("pmu");
-        TDirectory *subc = dir2->mkdir("cos");
-        TDirectory *subd = dir2->mkdir("pmu");
-
-        tmp = "Distribution P_{#mu}  "+nhist[isample];
-        hpmu[isample]->SetNameTitle("samp_pmu",tmp.c_str());
-        hpmu[isample]->SetTitle(tmp.c_str());
-        hpmu[isample]->GetXaxis()->SetTitle("P_{#mu}");
-        hpmu[isample]->GetYaxis()->SetTitle("Events");
-        hpmu[isample]->SetOption("HISTE");
-        hpmu[isample]->SetFillColor(kGreen);
-        hpmu[isample]->SetFillStyle(3004);
-        subb->cd();
-        hpmu[isample]->Write();
-
-        tmp = "Distribution cos #theta_{#mu} "+nhist[isample];
-        hcs[isample]->SetNameTitle("samp_cos",tmp.c_str());
-        hcs[isample]->GetXaxis()->SetTitle("cos #theta_{#mu}");
-        hcs[isample]->GetYaxis()->SetTitle("Events");
-        hcs[isample]->SetOption("HISTE");
-        hcs[isample]->SetFillColor(kBlue);
-        hcs[isample]->SetFillStyle(3004);
-        suba->cd();
-        hcs[isample]->Write();
-
-        // when applying weights to histos use integral instead of gebincontents to get the right number of entries
-        std::cout << "\n\nSample :  " << nhist[isample] << " bin analysis :"
-            << "\nTotal entries in sample : " << hpmu[isample]->Integral();
-
-        std::cout << std::endl << "*********************************************************************" << std::endl;
-        std::cout << std::endl
-            << setw(12) << "Variable"       
-            << setw(14) << "Bin"
-            << setw(10) << "Events"
-            << setw(15) << "Resolution"    
-            << setw(8) << "Width"
-            << setw(11) << "Bin Error " << std::endl;
-        std::cout << "*********************************************************************" << std::endl;
-
-        // Show bin contents
-        for(int ibin = 1; ibin < hpmu[isample]->GetNbinsX() + 1; ibin++) {
-
-            tmp = "res_pmu_bin"+to_string(ibin);
-            hpmu_res[isample][ibin-1]->SetName(tmp.c_str());
-            tmp = "Resolution P_{#mu} for bin "+to_string(ibin);
-            hpmu_res[isample][ibin-1]->SetTitle(tmp.c_str());
-            hpmu_res[isample][ibin-1]->GetXaxis()->SetTitle("#frac{Pmu - TruePmu}{TruePmu}");
-            hpmu_res[isample][ibin-1]->GetYaxis()->SetTitle("Events");
-            hpmu_res[isample][ibin-1]->SetOption("HISTE");
-            hpmu_res[isample][ibin-1]->SetFillColor(kViolet);
-            hpmu_res[isample][ibin-1]->SetFillStyle(3004);
-            subd->cd();
-            hpmu_res[isample][ibin-1]->Write();
-
-            std::cout 
-                << setw(12) << "Pmu"
-                << " [" << setw(5) << hpmu[isample]->GetXaxis()->GetBinLowEdge(ibin) << "," << setw(5) << hpmu[isample]->GetXaxis()->GetBinUpEdge(ibin) << "]" 
-                << setw(10) << hpmu[isample]->GetBinContent(ibin)
-                << setw(15) << hpmu_res[isample][ibin-1]->GetStdDev()*2
-                << setw(8) << hpmu[isample]->GetBinWidth(ibin)
-                << setw(11) << hpmu[isample]->GetBinError(ibin) << std::endl;
-            // show contents per sample for pmu
+        // cos matrices
+        //std::cout << "Cos: Sample: " << nhist[isample] << "\n";
+        for(int i = 0; i<bincos[isample].size()-1; i++) {
+            trubin = hcsbin[isample]->Integral(i+1,i+1,1,bincos[isample].size()-1);
+            for(int j = 0; j<bincos[isample].size()-1; j++) {
+                if(hcsbin[isample]->GetBinContent(i+1,j+1) == 0) {
+                    hcsbin[isample]->SetBinContent(i+1,j+1,0);
+                }
+                else {
+                    hcsbin[isample]->SetBinContent(i+1,j+1,hcsbin[isample]->GetBinContent(i+1,j+1)/trubin);
+                    //std::cout << "xbin: " << i+1 << " " << "ybin: " << j+1 << "\n";
+                    //std::cout << "True bin content: " << trubin << "\n";
+                    //std::cout << "Old bin content: " << hcsbin[isample]->GetBinContent(i+1,j+1) << "\n";
+                    //std::cout << "New bin content: " << hcsbin[isample]->GetBinContent(i+1,j+1)/trubin << "\n\n";
+                }
+            }
         }
-        for(int jbin = 1; jbin < hcs[isample]->GetNbinsX() + 1; jbin++) {
 
-            tmp = "res_cos_bin"+to_string(jbin);
-            hcs_res[isample][jbin-1]->SetName(tmp.c_str());
-            tmp = "Resolution cos #theta_{#mu} for bin "+to_string(jbin);
-            hcs_res[isample][jbin-1]->SetTitle(tmp.c_str());
-            hcs_res[isample][jbin-1]->GetXaxis()->SetTitle("#frac{CosThetamu - TrueCosThetamu}{TrueCosThetamu}");
-            hcs_res[isample][jbin-1]->GetYaxis()->SetTitle("Events");
-            hcs_res[isample][jbin-1]->SetOption("HISTE");
-            hcs_res[isample][jbin-1]->SetFillColor(kRed);
-            hcs_res[isample][jbin-1]->SetFillStyle(3004);
-            subc->cd();
-            hcs_res[isample][jbin-1]->Write();
-
-            std::cout 
-                << setw(12) << "CosThetamu"
-                << " [" << setw(5)<< hcs[isample]->GetXaxis()->GetBinLowEdge(jbin) << "," << setw(5) << hcs[isample]->GetXaxis()->GetBinUpEdge(jbin) << "]" 
-                << setw(10) << hcs[isample]->GetBinContent(jbin)
-                << setw(15) << hcs_res[isample][jbin-1]->GetStdDev()*2
-                << setw(8) << hcs[isample]->GetBinWidth(jbin)
-                << setw(11) << hcs[isample]->GetBinError(jbin) << std::endl;
-
-        }
-        outfile->Close();
+        // draw and save plots
+        c1->cd();
+        hpmu[isample]->Draw("COLZ");
+        nfile = path+"unbinned/pmu/plotpmu_"+nhist[isample]+".png";
+        c1->SaveAs(nfile.c_str());
+        c1->Write();
+        hcs[isample]->Draw("COLZ");
+        nfile = path+"unbinned/cos/plotcos_"+nhist[isample]+".png";
+        c1->SaveAs(nfile.c_str());
+        c1->Write();
+        //c2->cd();
+        hpmubin[isample]->Draw("COLZ");
+        nfile = path+"binned/pmu/plotpmubin_"+nhist[isample]+".png";
+        c1->SaveAs(nfile.c_str());
+        c1->Write();
+        hcsbin[isample]->Draw("COLZ");
+        nfile = path+"binned/cos/plotcsbin_"+nhist[isample]+".png";
+        c1->SaveAs(nfile.c_str());
+        c1->Write();
     }
+    outfile->Close();
 }
