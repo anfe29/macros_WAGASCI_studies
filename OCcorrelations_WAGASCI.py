@@ -32,12 +32,18 @@ var_pb = np.array([1.00, 1.00, 1.00, 1.00])
 # print(nom_cov_pb)
 
 Ntoys = 5000000
-# approx 95% correlations
-#precision = 0.5
+# approx 20% correlations
+precision = 1.97
 # approx 30% correlations
 #precision = 1.73
 # approx 40% correlations
-precision = 1.54
+#precision = 1.54
+# approx 50% correlations
+#precision = 1.40
+# approx 60% correlations
+#precision = 1.26
+# approx 95% correlations
+#precision = 0.5
 
 toys = np.random.multivariate_normal(np.zeros(7), nom_cov, size=Ntoys)
 remaining_toys = []
