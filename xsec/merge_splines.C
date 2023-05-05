@@ -76,8 +76,8 @@ void write_binning(std::string param)
 
 void combineSplines()
 {
-	f_output = new TFile("xsec_sampKenj/inputs/splines/pmu_splines.root","RECREATE");
-	//f_output = new TFile("xsec_sampKenj/inputs/splines/pmu_splines_graphs.root","RECREATE");
+	//f_output = new TFile("xsec_sampKenj/inputs/splines/pmu_splines.root","RECREATE");
+	f_output = new TFile("xsec_sampKenj/inputs/splines/pmu_splines_graphs.root","RECREATE");
 
 	// read spline file, put graphs in object array and write them into new root file
 	for(int i = 0; i < name_spline.size(); i++) {
@@ -96,27 +96,27 @@ void combineSplines()
 			title_g = g->GetTitle();
 			std::cout << "Reading: " << title_g << "\t";
 			int n = 0;
-			std::cout << " =>Contents of spline : ";
-			for(int k = 0; k < g->GetMaxSize(); k++) {
-				std::cout << g->GetPointY(k) << "  ";
-				if(g->GetPointY(k) == 1) n++;
-			}
+			//std::cout << " =>Contents of spline : ";
+			//for(int k = 0; k < g->GetMaxSize(); k++) {
+				//std::cout << g->GetPointY(k) << "  ";
+				//if(g->GetPointY(k) == 1) n++;
+			//}
             std::cout << std::endl;
 
             // fill tstring array for the binning 
-			if(n == g->GetMaxSize()) {
+			//if(n == g->GetMaxSize()) {
 				//std::cout << " => Ignoring\n";
-				continue;
-			}
-			else {
+				//continue;
+			//}
+			//else {
 				std::cout << " => Adding\n";
 				std::cout << "Mean : " << g->GetMean(2) << " \n";
 				// fill tstring array for the binning 
 				fillStringArray(title_g);
-				//grapharray->Add(g);
-                spline = new TSpline3(title_g.c_str(), g);
-				grapharray->Add(spline);
-			}
+				grapharray->Add(g);
+                //spline = new TSpline3(title_g.c_str(), g);
+				//grapharray->Add(spline);
+			//}
 		}
 
 		std::cout << "Writing " << name_spline[i] << " to output file \n";
