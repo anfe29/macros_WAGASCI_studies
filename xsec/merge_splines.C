@@ -96,19 +96,19 @@ void combineSplines()
 			title_g = g->GetTitle();
 			std::cout << "Reading: " << title_g << "\t";
 			int n = 0;
-			//std::cout << " =>Contents of spline : ";
-			//for(int k = 0; k < g->GetMaxSize(); k++) {
-				//std::cout << g->GetPointY(k) << "  ";
-				//if(g->GetPointY(k) == 1) n++;
-			//}
+			std::cout << " =>Contents of spline : ";
+			for(int k = 0; k < g->GetMaxSize(); k++) {
+				std::cout << g->GetPointY(k) << "  ";
+				if(g->GetPointY(k) == 1) n++;
+			}
             std::cout << std::endl;
 
-            // fill tstring array for the binning 
-			//if(n == g->GetMaxSize()) {
+             //fill tstring array for the binning 
+			if(n == g->GetMaxSize()) {
 				//std::cout << " => Ignoring\n";
-				//continue;
-			//}
-			//else {
+				continue;
+			}
+			else {
 				std::cout << " => Adding\n";
 				std::cout << "Mean : " << g->GetMean(2) << " \n";
 				// fill tstring array for the binning 
@@ -116,7 +116,7 @@ void combineSplines()
 				grapharray->Add(g);
                 //spline = new TSpline3(title_g.c_str(), g);
 				//grapharray->Add(spline);
-			//}
+			}
 		}
 
 		std::cout << "Writing " << name_spline[i] << " to output file \n";
