@@ -33,7 +33,7 @@ var_pb = np.array([1.00, 1.00, 1.00, 1.00])
 
 Ntoys = 5000000
 # approx 20% correlations
-precision = 1.97
+#precision = 1.97
 # approx 30% correlations
 #precision = 1.73
 # approx 40% correlations
@@ -42,6 +42,10 @@ precision = 1.97
 #precision = 1.40
 # approx 60% correlations
 #precision = 1.26
+# approx 70% correlations
+#precision = 1.12
+# approx 80% correlations
+precision = 0.95
 # approx 95% correlations
 #precision = 0.5
 
