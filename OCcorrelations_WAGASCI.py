@@ -11,7 +11,8 @@ nom_cov = np.array([[0.20**2,      0.,      0.,      0.,      0.,      0.,      
                     [     0.,      0.,      0.,      0.,      0.,      0., 2.00**2]])
 
 sigma = [0.20, 0.45, 2.00, 0.25, 0.45, 0.75, 2.00]
-corr = 0.3
+corr = 0.8
+high_corr = 2*corr**2 - 1
 
 cov = np.zeros([len(sigma), len(sigma)])
 
@@ -31,6 +32,13 @@ for ientry in range(len(sigma)):
         if ientry == 4 and jentry == 0:
             cov[ientry][jentry] = corr*sigma[ientry]*sigma[jentry]
 
+        # Oxygen p-shell correlation
+        if high_corr > 0:
+            if ientry == 3 and jentry == 4:
+                cov[ientry][jentry] = high_corr*sigma[ientry]*sigma[jentry]
+            if ientry == 4 and jentry == 3:
+                cov[ientry][jentry] = high_corr*sigma[ientry]*sigma[jentry]
+
         # s-shell correlations
         if ientry == 1 and jentry == 5:
             cov[ientry][jentry] = corr*sigma[ientry]*sigma[jentry]
@@ -46,7 +54,7 @@ for ientry in range(len(sigma)):
 print(cov)
 # # Put in the covariance
 
-file = TFile("studies_sampKenj/inputs/parameters/xsec/xsec_covariance_banff_2021a_v13_noFlux_050122_Mirror2p2hShape_MirrorRESEb_splineRS_COcorr30.root", "UPDATE")
+file = TFile("studies_sampKenj/inputs/parameters/xsec/xsec_covariance_banff_2021a_v13_noFlux_050122_Mirror2p2hShape_MirrorRESEb_splineRS_COcorr.root", "UPDATE")
 
 xsec_cov = file.Get("xsec_cov")
 #xsec_cov = file.GetKey("xsec_cov").ReadObj()
@@ -65,7 +73,7 @@ for i in range(len(indices)):
     for j in range(len(indices)):
         xsec_cov[indices[i]][indices[j]] = cov[i, j]
 
-xsec_cov.Print()
+#xsec_cov.Print()
 xsec_cov.Write("xsec_cov", 2) # Overwrite
 file.Close()
 

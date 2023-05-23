@@ -15,13 +15,16 @@ dial_pos = [
         17, 18, 19, 20, 21, 22, 23 # SF Oxygen
 ]
 
-corr = [0, 20, 30, 40, 50, 60, 70, 80, 95]
+#corr = [0, 20, 30, 40, 50, 60, 70, 80, 95]
+corr = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-fits = ["FGD_onlyFHC", "FGD_SFGD_onlyFHC", "WAGASCI_FGD_SFGD_onlyFHC"]
+#fits = ["FGD_onlyFHC", "FGD_SFGD_onlyFHC", "WAGASCI_FGD_SFGD_onlyFHC"]
+fits = ["FGD_onlyFHC"]
 
 path_to_errors = "FitterEngine/postFit/Migrad/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D"
 #path_to_errors = "FitterEngine/postFit/Hesse/errors/Cross-Section Systematics/valuesNorm/postFitErrors_TH1D"
-path_to_outputs = "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/corr/FHC_COcorr"
+#path_to_outputs = "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/corr/FHC_COcorr"
+path_to_outputs = "studies_sampKenj/outputs/prelim_jointfit/pot_fhc/corr_fix/FHC_COcorr"
 
 
 for iparam in range(len(param_name)):
@@ -52,8 +55,8 @@ for iparam in range(len(param_name)):
             #for ifile in range(len(os.listdir(path_to_fits))):
 
     leg.AddEntry(gr[0],"FGD","l")
-    leg.AddEntry(gr[1],"FGD+SFGD","l")
-    leg.AddEntry(gr[2],"WG+FGD+SFGD","l")
+    #leg.AddEntry(gr[1],"FGD+SFGD","l")
+    #leg.AddEntry(gr[2],"WG+FGD+SFGD","l")
     for ifit in range(len(fits)):
         if ifit == 0:
             gr[ifit].SetTitle(param_name[iparam])
@@ -62,14 +65,16 @@ for iparam in range(len(param_name)):
             gr[ifit].GetXaxis().SetTitleSize(0.045)
             gr[ifit].GetXaxis().SetLabelSize(0.04)
             gr[ifit].GetYaxis().SetTitle("#sigma_{postfit}/#sigma_{prefit}")
-            #gr[ifit].SetMaximum(1)
-            gr[ifit].SetMaximum(gr[0].GetYaxis().GetXmax()*1.05)
+            #gr[ifit].SetMaximum(gr[0].GetYaxis().GetXmax()*1.05)
+            gr[ifit].SetMaximum(gr[ifit].GetYaxis().GetXmax()*1.05)
             gr[ifit].SetMinimum(0)
-            gr[ifit].SetMinimum(gr[2].GetYaxis().GetXmin()*0.95)
+            #gr[ifit].SetMinimum(gr[2].GetYaxis().GetXmin()*0.95)
+            gr[ifit].SetMinimum(gr[ifit].GetYaxis().GetXmin()*0.95)
             gr[ifit].Draw("LAP PLC PMC")
         else:
             gr[ifit].Draw("LP PLC PMC")
             
     leg.Draw()
     c1.Update()
-    c1.SaveAs("plots/err_corr/{}.png".format(param_name[iparam]))
+    #c1.SaveAs("plots/err_corr/{}.png".format(param_name[iparam]))
+    c1.SaveAs("plots/err_corr_fix/{}.png".format(param_name[iparam]))
