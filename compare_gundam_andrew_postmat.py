@@ -25,8 +25,10 @@ if amatrix.GetNcols() != gmatrix.GetNbinsX():
 
 #c1 = TCanvas()
 
-for ientry in range(len(amatrix.GetNcols())):
-    for jentry in range(len(amatrix.GetNcols())):
-        #amatrix[ientry][jentry] -= gmatrix.GetBin(ientry, jentry)
-        print("xsllhFitter output matrix: "+str(amatrix[ientry][jentry]))
-        print("GUNDAM output matrix: "+str(gmatrix.GetBin(ientry, jentry)))
+for ientry in range(amatrix.GetNcols()):
+    for jentry in range(amatrix.GetNcols()):
+        #amatrix[ientry][jentry] -= gmatrix.GetBinContent(GetBin(ientry, jentry))
+        print("Matrix element: [ " + str(ientry) + " , " + str(jentry) + " ]")
+        print("\txsllhFitter output matrix entry: "+str(amatrix[ientry][jentry]))
+        print("\tGUNDAM output matrix entry: "+str(gmatrix.GetBinContent(gmatrix.GetBin(ientry, jentry))))
+        print("\tAbsolute Difference: "+str(abs(amatrix[ientry][jentry] - gmatrix.GetBinContent(gmatrix.GetBin(ientry, jentry)))))
