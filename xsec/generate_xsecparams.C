@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> name_spline = {"MAQE","Q2_norm_5","Q2_norm_6","Q2_norm_7","Optical_Potential_O","Optical_Potential_C","2p2h_Norm_C","2p2h_Norm_O","2p2h_shape_C_NN","2p2h_shape_C_np","2p2h_shape_O_NN","2p2h_shape_O_np","PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","ISO_BKG","CA5","MARES","FEFABS","FEFCXH","FEFCX","FEFINEL","FEFQEH","FEFQE","Nucleon_FSI","CC_norm_nu","CC_MultiPi_norm_nu"};
+std::vector<std::string> name_spline = {"MaCCQE","QETwk_HighQ2Weight_1","QETwk_HighQ2Weight_2","QETwk_HighQ2Weight_3","SF_OptPotTwkDial_O16","SF_OptPotTwkDial_C12","MECTwkDial_Norm_C12","MECTwkDial_Norm_O16","MECTwkDial_PDDWeight_C12_NN","MECTwkDial_PDDWeight_C12_np","MECTwkDial_PDDWeight_O16_NN","MECTwkDial_PDDWeight_O16_np","MECTwkDial_PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","BgSclRES","CA5RES","MaRES","PionFSI_AbsProb","PionFSI_CExHighMomProb","PionFSI_CExLowMomProb","PionFSI_InelProb","PionFSI_QEHighMomProb","PionFSI_QELowMomProb","TwkDial_FateNucleonFSI","CC_DIS_norm_nu","CC_MultiPi_norm_nu"};
+//std::vector<std::string> name_spline = {"MAQE","Q2_norm_5","Q2_norm_6","Q2_norm_7","Optical_Potential_O","Optical_Potential_C","2p2h_Norm_C","2p2h_Norm_O","2p2h_shape_C_NN","2p2h_shape_C_np","2p2h_shape_O_NN","2p2h_shape_O_np","PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","ISO_BKG","CA5","MARES","FEFABS","FEFCXH","FEFCX","FEFINEL","FEFQEH","FEFQE","Nucleon_FSI","CC_norm_nu","CC_MultiPi_norm_nu"};
 TObjArray *xsec_param_name = NULL;
 TFile *f_output = NULL;
 
@@ -34,7 +35,7 @@ void generate_xsecparams()
 	double *c = ub;
     for(int i = 0; i < param_num; i++) {
 
-        //if(strcmp(name_dials[i].c_str(),"MAQE") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MaCCQE") == 0) {
         if(i == 0) {
             prior[i] = 1.00;
             lb[i] = 0.0;
@@ -58,63 +59,63 @@ void generate_xsecparams()
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
-        //if(strcmp(name_dials[i].c_str(),"Optical_Potential_O") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"SF_OptPotTwkDial_O16") == 0) {
         if(i == 4) {
             prior[i] = 1.00;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"Optical_Potential_C") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"SF_OptPotTwkDial_C12") == 0) {
         if(i == 5) {
             prior[i] = 1.00;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"2p2h_Norm_C") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_Norm_C12") == 0) {
         if(i == 6) {
             prior[i] = 1.00;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"2p2h_Norm_O") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_Norm_O16") == 0) {
         if(i == 7) {
             prior[i] = 1.00;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"2p2h_shape_C_NN") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_PDDWeight_C12_NN") == 0) {
         if(i == 8) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"2p2h_shape_C_np") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_PDDWeight_C12_np") == 0) {
         if(i == 9) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"2p2h_shape_O_NN") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_PDDWeight_O16_NN") == 0) {
         if(i == 10) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"2p2h_shape_O_np") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_PDDWeight_O16_np") == 0) {
         if(i == 11) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"PNNN_Shape") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MECTwkDial_PNNN_Shape") == 0) {
         if(i == 12) {
             prior[i] = 1.0;
             lb[i] = 0.0;
@@ -138,76 +139,76 @@ void generate_xsecparams()
             lb[i] = -0.5;
             ub[i] = 2.0;
         }
-        //if(strcmp(name_dials[i].c_str(),"ISO_BKG") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"BgSclRES") == 0) {
         if(i == 15) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"CA5") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"CA5RES") == 0) {
         if(i == 16) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"MARES") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"MaRES") == 0) {
         if(i == 17) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"FEFABS") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"PionFSI_AbsProb") == 0) {
         if(i == 18) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"FEFCXH") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"PionFSI_CExHighMomProb") == 0) {
         if(i == 19) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"FEFCX") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"PionFSI_CExLowMomProb") == 0) {
         if(i == 20) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"FEFINEL") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"PionFSI_InelProb") == 0) {
         if(i == 21) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"FEFQEH") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"PionFSI_QEHighMomProb") == 0) {
         if(i == 22) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"FEFQE") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"PionFSI_QELowMomProb") == 0) {
         if(i == 23) {
             prior[i] = 1.00;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
 
-        //if(strcmp(name_dials[i].c_str(),"Nucleon_FSI") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"TwkDial_FateNucleonFSI") == 0) {
         if(i == 24) {
             prior[i] = 1.0;
             lb[i] = 0.0;
             ub[i] = 2.0;
         }
-        //if(strcmp(name_dials[i].c_str(),"CC_norm_nu") == 0) {
+        //if(strcmp(name_dials[i].c_str(),"CC_DIS_norm_nu") == 0) {
         if(i == 25) {
             prior[i] = 1.00;
             lb[i] = 0.0;

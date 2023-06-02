@@ -4,17 +4,18 @@ import sys
 gROOT.SetBatch(True)
 
 # Check number of arguments
-if (len(sys.argv) != 3):
+if (len(sys.argv) != 4):
     print("Usage: python compare_gundam_andrew.py")
     print("\t xsLLhFitterpostfitFile")
     print("\t gundamPostfitFile")
-    #print("\t outputfolder")
+    print("\t outputfolder")
     exit()
 else:
     print("Processing xsLLhFitter and GUNDAM files")
 
 apath = sys.argv[1]
 gpath = sys.argv[2]
+opath = sys.argv[3]
 
 afile = TFile(apath)
 gfile = TFile(gpath)
@@ -59,7 +60,8 @@ for i in range(len(hist_name)):
     leg.Draw()
 
     c1.Update()
-    c1.SaveAs("plots/hist_compare/hist_"+str(hist_name[i])+".png")
+    #c1.SaveAs("plots/hist_compare/hist_"+str(hist_name[i])+".png")
+    c1.SaveAs(opath+str(hist_name[i])+".png")
     c1.Clear()
 
     #print("Kenji hist name: "+ahist[i].GetTitle())

@@ -42,10 +42,12 @@ MECTwkDial_PNNN_Shape        SF_P1_2Shell_MeanF_Norm_O  TwkDial_FateNucleonFSI
 # change name of files in given directory
 i=0
 ls $1
-for name in ${Kenjname[*]};
+#for name in ${Kenjname[*]};
+for name in ${OAname[*]};
 do
     #echo Rename $1*$name.root into $1splines_pmu_${OAname[i]}.root
-    mv $1*$name.root $1splines_pmu_${OAname[i]}.root
+    #mv $1*$name.root $1splines_pmu_${OAname[i]}.root
+    mv $1*$name.root $1splines_pmu_${Kenjname[i]}.root
     ((i++))
 done
 
