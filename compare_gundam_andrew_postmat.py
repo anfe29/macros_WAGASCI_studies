@@ -19,8 +19,9 @@ if not os.path.exists(gpath):
 afile = uproot.open(apath)
 gfile = uproot.open(gpath)
 
-amatrix = afile["res_cov_matrix"].array("res_cov_matrix")
+amatrix = afile["res_cov_matrix"].to_numpy()
 ghist = gfile["FitterEngine/postFit/Hesse/hessian/postfitCovarianceOriginal_TH2D"].to_numpy()
+
 # convert TH2D to Tmatrix
 gmatrix= np.array(ghist)
 
