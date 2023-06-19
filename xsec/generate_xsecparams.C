@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> name_spline = {"MaCCQE","QETwk_HighQ2Weight_1","QETwk_HighQ2Weight_2","QETwk_HighQ2Weight_3","SF_OptPotTwkDial_O16","SF_OptPotTwkDial_C12","MECTwkDial_Norm_C12","MECTwkDial_Norm_O16","MECTwkDial_PDDWeight_C12_NN","MECTwkDial_PDDWeight_C12_np","MECTwkDial_PDDWeight_O16_NN","MECTwkDial_PDDWeight_O16_np","MECTwkDial_PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","BgSclRES","CA5RES","MaRES","PionFSI_AbsProb","PionFSI_CExHighMomProb","PionFSI_CExLowMomProb","PionFSI_InelProb","PionFSI_QEHighMomProb","PionFSI_QELowMomProb","TwkDial_FateNucleonFSI","CC_DIS_norm_nu","CC_MultiPi_norm_nu"};
-//std::vector<std::string> name_spline = {"MAQE","Q2_norm_5","Q2_norm_6","Q2_norm_7","Optical_Potential_O","Optical_Potential_C","2p2h_Norm_C","2p2h_Norm_O","2p2h_shape_C_NN","2p2h_shape_C_np","2p2h_shape_O_NN","2p2h_shape_O_np","PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","ISO_BKG","CA5","MARES","FEFABS","FEFCXH","FEFCX","FEFINEL","FEFQEH","FEFQE","Nucleon_FSI","CC_norm_nu","CC_MultiPi_norm_nu"};
+//std::vector<std::string> name_spline = {"MaCCQE","QETwk_HighQ2Weight_1","QETwk_HighQ2Weight_2","QETwk_HighQ2Weight_3","SF_OptPotTwkDial_O16","SF_OptPotTwkDial_C12","MECTwkDial_Norm_C12","MECTwkDial_Norm_O16","MECTwkDial_PDDWeight_C12_NN","MECTwkDial_PDDWeight_C12_np","MECTwkDial_PDDWeight_O16_NN","MECTwkDial_PDDWeight_O16_np","MECTwkDial_PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","BgSclRES","CA5RES","MaRES","PionFSI_AbsProb","PionFSI_CExHighMomProb","PionFSI_CExLowMomProb","PionFSI_InelProb","PionFSI_QEHighMomProb","PionFSI_QELowMomProb","TwkDial_FateNucleonFSI","CC_DIS_norm_nu","CC_MultiPi_norm_nu"};
+std::vector<std::string> name_spline = {"MAQE","Q2_norm_5","Q2_norm_6","Q2_norm_7","Optical_Potential_O","Optical_Potential_C","2p2h_Norm_C","2p2h_Norm_O","2p2h_shape_C_NN","2p2h_shape_C_np","2p2h_shape_O_NN","2p2h_shape_O_np","PNNN_Shape","RES_Eb_C_numu","RES_Eb_O_numu","ISO_BKG","CA5","MARES","FEFABS","FEFCXH","FEFCX","FEFINEL","FEFQEH","FEFQE","Nucleon_FSI","CC_norm_nu","CC_MultiPi_norm_nu"};
 TObjArray *xsec_param_name = NULL;
 TFile *f_output = NULL;
 
@@ -237,7 +237,7 @@ void generate_xsecparams()
 	std::cout << "Contents of matrix: \n";
 	cov_matrix->Print();
 
-	f_output = new TFile("xsec_sampKenj/inputs/parameters/xsec/xsec_covmatrix_param.root","RECREATE");
+	f_output = new TFile("xsec_sampKenj/parameters/xsec/xsec_covmatrix_param.root","RECREATE");
 	//f_output->WriteObject(cov_matrix,"xsec_cov");
 	//f_output->WriteObject(corr_matrix,"xsec_corr");
 	cov_matrix->Write("xsec_cov");

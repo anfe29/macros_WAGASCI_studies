@@ -3,3 +3,6 @@
 
 # ignore old macro folder
 old_macros/
+
+# ignore sfpt
+sftp-config.json

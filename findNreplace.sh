@@ -40,11 +40,11 @@ MECTwkDial_PNNN_Shape        SF_P1_2Shell_MeanF_Norm_O  TwkDial_FateNucleonFSI
 )
 # finds word in given file and replaces with words from list
 i=0
-#for name in ${Kenjname[*]};
-for name in ${OAname[*]};
+for name in ${Kenjname[*]};
+#for name in ${OAname[*]};
 do
-     #sed -i 's/'$name'/'${OAname[i]}'/g' $1
-     sed -i 's/'$name'/'${Kenjname[i]}'/g' $1
+     sed -i 's/'$name'/'${OAname[i]}'/g' $1
+     #sed -i 's/'$name'/'${Kenjname[i]}'/g' $1
      #echo 's/'$name'/'${OAname[i]}'/g' $1
     ((i++))
 done
